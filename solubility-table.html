@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Метаданные и стили -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Таблица растворимости</title>
+<!-- Favicon настройки -->
+    <!-- Основная иконка -->
+    <link rel="icon" type="RANEPA_logo.png" href="assets/RANEPA_logo.png">
+    <!-- Иконки для Apple-устройств -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/RANEPA_logo.png">
+    <!-- Иконки разных размеров -->
+    <link rel="icon" type="RANEPA_logo.png" sizes="32x32" href="assets/RANEPA_logo.png">
+    <link rel="icon" type="RANEPA_logo.png" sizes="16x16" href="assets/RANEPA_logo.png">
+    <link rel="stylesheet" href="css/ai-button.css">
+    <link rel="stylesheet" href="css/search-modal.css">
+    <script type="module" src="./js/solubility_modal.js"></script>
+
+
+
+    <!-- стили CSS-->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .table-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 40px 0;
+            color: #2c3e50;
+            font-weight: 600;
+            background: linear-gradient(45deg, #6b48ff, #6fb1a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Основные стили таблицы */
+        .table-container {
+            overflow-x: auto;
+            margin: 30px auto;
+            max-width: 95%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 2px;
+            min-width: 1400px;
+            margin: 0 auto;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Цвета из таблицы Менделеева(Стили ячеек таблицы) */
+        td.M { 
+            background: #6fb1a0; /* Металлы */
+            color: white;
+        }
+
+        td.N { 
+            background: #ff6b6b; /* Неметаллы */
+            color: white;
+        }
+
+        td.dash { 
+            background: #a4b0be; /* Переходные элементы */
+            color: #2c3e50;
+            font-style: italic;
+        }
+
+        .main-solubility-table thead th {
+            background: linear-gradient(45deg, #2c3e50, #6fb1a0);
+            color: white;
+            position: relative;
+            top: 0;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 247, 250, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader {
+            position: relative;
+            width: 146px;
+            height: 146px;
+        }
+
+        .loader::before,
+        .loader::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            animation-duration: 1.8s;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 0 11px rgba(100, 100, 255, 0.3));
+        }
+
+        .loader::before {
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 0 17px #6fb1a0;
+            animation-name: pulsA;
+        }
+
+        .loader::after {
+            width: calc(100% - 34px);
+            height: calc(100% - 34px);
+            box-shadow: 0 0 0 0 #6b48ff;
+            animation-name: pulsB;
+        }
+
+        @keyframes pulsA {
+            0% { box-shadow: inset 0 0 0 17px #6fb1a0; opacity: 1; }
+            50%, 100% { box-shadow: inset 0 0 0 0 #6fb1a0; opacity: 0; }
+        }
+
+        @keyframes pulsB {
+            0%, 50% { box-shadow: 0 0 0 0 #6b48ff; opacity: 0; }
+            100% { box-shadow: 0 0 0 17px #6b48ff; opacity: 1; }
+        }
+
+        .legend {
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .reference-data {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow-x: hidden;
+        }
+
+
+        .legend {
+        margin: 30px auto;
+        padding: 25px;
+        background: rgba(255,255,255,0.98);
+        border-radius: 20px;
+        max-width: 800px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .legend ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+    }
+
+    .legend li {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-radius: 12px;
+        background: rgba(245, 247, 250, 0.8);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .legend li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        background: white;
+    }
+
+    .legend li::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: currentColor;
+        opacity: 0.2;
+    }
+
+    .color-box {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        margin-right: 15px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .legend li:hover .color-box {
+        transform: scale(1.1) rotate(15deg);
+    }
+
+    .legend span {
+        font-size: 15px;
+        color: #2c3e50;
+        font-weight: 500;
+        letter-spacing: -0.2px;
+    }
+
+    .legend li:nth-child(1) .color-box {
+        border: 2px solid #6fb1a0;
+        background: rgba(255,255,255,0.9);
+    }
+
+    .legend li:nth-child(2) .color-box {
+        background: #6fb1a0;
+    }
+
+    .legend li:nth-child(3) .color-box {
+        background: #ff6b6b;
+    }
+
+    .legend li:nth-child(4) .color-box {
+        background: #a4b0be;
+    }
+    /* Стили для модального окна */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(5px);
+        z-index: 1000;
+        animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+        background: white;
+        margin: 5% auto;
+        padding: 30px;
+        width: 500px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: relative;
+        transform: scale(0.9);
+        animation: modalScale 0.3s forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes modalScale {
+        to { transform: scale(1); }
+    }
+
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 15px;
+        font-size: 32px;
+        cursor: pointer;
+        color: #666;
+        transition: 0.3s;
+    }
+
+    .close:hover {
+        color: #ff6b6b;
+        transform: rotate(90deg);
+    }
+
+    #ionTitle {
+        color: #2c3e50;
+        margin: 0 0 20px 0;
+        border-bottom: 2px solid #6fb1a0;
+        padding-bottom: 10px;
+    }
+
+    .modal-body p {
+        font-size: 16px;
+        margin: 15px 0;
+        line-height: 1.6;
+    }
+
+    .modal-body strong {
+        color: #6fb1a0;
+        min-width: 100px;
+        display: inline-block;
+    }
+    nav {
+    background: #2c3e50;
+    padding: 1rem;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border-radius: 25px; 
+    margin: 20px 25px;
+    overflow: hidden; 
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 18px; 
+    padding: 0.8rem 1.2rem; 
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: #6fb1a0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(78,205,196,0.3);
+}
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+table {
+    position: relative;
+}
+
+tbody th {
+    position: relative;
+    left: 0;
+    z-index: 3;
+    background: linear-gradient(45deg, #2c3e50, #6fb1a0);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    backdrop-filter: blur(2px);
+}
+/* Добавленные/измененные стили для мобильной адаптации */
+            @media (max-width: 768px) {
+            nav {
+            border-radius: 20px;
+            margin: 15px;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .table-title {
+                font-size: 1.8rem;
+                margin: 20px 0;
+            }
+
+            .table-container {
+                padding: 10px;
+                margin: 15px auto;
+                border-radius: 10px;
+            }
+
+            table {
+                min-width: 100%;
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+                min-width: 40px;
+                font-size: 11px;
+            }
+
+            .legend {
+                padding: 15px;
+                margin: 20px auto;
+            }
+
+            .legend li {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .color-box {
+                width: 22px;
+                height: 22px;
+                margin-right: 10px;
+            }
+
+            .reference-data h2 {
+                font-size: 1.2rem;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+
+            #ionTitle {
+                font-size: 1.3rem;
+            }
+
+            nav ul li  {
+                gap: 0.5rem;
+                padding: 0.5rem;
+                border-radius: 15px;
+                margin: 8px 0;
+                background: rgba(255,255,255,0.15);
+            }
+
+            nav a {
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
+                border-radius: 15px;
+        
+            }
+
+            tbody th {
+                font-size: 10px;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-title {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 6px;
+                min-width: 35px;
+                font-size: 10px;
+            }
+
+            .legend ul {
+                grid-template-columns: 1fr;
+            }
+
+            .reference-data table td {
+                word-break: keep-all;
+                font-size: 10px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+
+            .modal-body p {
+                font-size: 14px;
+            }
+        }
+
+        /* Дополнительные стили для мобильной прокрутки */
+        .table-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Оптимизация отображения таблицы */
+        .main-solubility-table thead th {
+            min-width: 60px;
+        }
+
+        tbody th {
+            position: relative;
+            left: 0;
+            z-index: 2;
+            background: linear-gradient(45deg, #2c3e50, #6fb1a0);
+            color: white;
+        }
+
+        /* Адаптация дополнительных таблиц */
+        .additional-table td {
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .additional-table td {
+                font-size: 12px;
+            }
+        }
+    
+        
+
+    
+        
+
+    
+        /* --- Sticky header row and first column (dark mint gradient) --- */
+        .main-solubility-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: linear-gradient(135deg, #5aa897 0%, #2e7a67 100%);
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: inset 0 -1px 0 rgba(255,255,255,0.2), 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .main-solubility-table td:first-child, .main-solubility-table th:first-child {
+            position: sticky;
+            left: 0;
+            background: linear-gradient(135deg, #5aa897 0%, #2e7a67 100%);
+            color: #ffffff;
+            z-index: 25;
+            box-shadow: 3px 0 6px rgba(0,0,0,0.15), inset -1px 0 0 rgba(255,255,255,0.2);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+    
+/* =============================
+   ТЁМНАЯ МОДАЛКА РАСТВОРИМОСТИ
+   СТИЛЬ ТАБЛИЦЫ МЕНДЕЛЕЕВА
+============================== */
+
+.sol-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(8px);
+    display: none;
+
+    /* Центрируем окно — как ты хочешь */
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+    z-index: 9999;
+
+    /* ВАЖНО: контейнер не должен прокручиваться */
+    overflow: hidden;
+}
+
+
+.sol-modal-content {
+    width: min(900px, 94vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+
+
+    background: linear-gradient(145deg, #111827, #0f172a);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.08);
+
+    padding: 28px 32px;
+    color: #e5e7eb;
+}
+
+/* Кнопка закрытия */
+.sol-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: 0.2s;
+}
+
+.sol-close:hover {
+    color: #f87171;
+    transform: rotate(90deg);
+}
+
+/* Заголовок */
+.sol-header h1 {
+    margin: 0 0 16px;
+    font-size: 2rem;
+    font-weight: 600;
+
+    background: linear-gradient(135deg, #6b48ff, #4ecdc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Свойства (Заряд / Тип иона) */
+.sol-properties {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.sol-property-card {
+    flex: 1;
+    padding: 12px 15px;
+
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+
+    font-size: 0.95rem;
+    color: #e5e7eb;
+}
+
+/* Табуляторы */
+.sol-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.sol-tab {
+    padding: 8px 14px;
+    font-size: 0.92rem;
+    cursor: pointer;
+
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    transition: 0.25s ease;
+}
+
+.sol-tab:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.sol-tab.active {
+    background: linear-gradient(135deg, #6b48ff, #4ecdc4);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 8px 22px rgba(79,70,229,0.45);
+}
+
+/* Контент вкладок */
+.sol-tab-content {
+    display: none;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    padding: 4px 2px;
+}
+
+.sol-tab-content.active {
+    display: block;
+}
+
+/* Ссылки, формулы, выделения */
+.sol-tab-content b {
+    color: #93c5fd;
+}
+
+.sol-tab-content strong {
+    color: #38bdf8;
+}
+/* ==== СКРОЛЛБАР МОДАЛКИ РАСТВОРИМОСТИ ==== */
+
+.sol-modal-content {
+    scrollbar-gutter: stable;
+}
+
+/* Внешний вид полосы прокрутки */
+.sol-modal-content::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sol-modal-content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+}
+
+.sol-modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #6b48ff, #4ecdc4);
+    border-radius: 12px;
+    border: 2px solid rgba(0,0,0,0.4);
+}
+
+.sol-modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7e5bff, #6ff5dd);
+}
+
+.sol-tab-content {
+    min-height: 200px; /* фиксированная базовая высота */
+    transition: opacity 0.25s ease;
+}
+
+.sol-tab-content:not(.active) {
+    opacity: 0;
+}
+
+/* Верхний горизонтальный скроллбар */
+.solubility-scroll-top {
+  height: 12px;
+  background: rgba(240,240,240,0.9);
+  border-radius: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: pointer;
+  margin: 5px auto 0;
+  max-width: 95%;
+  scrollbar-width: thin;
+  scrollbar-color: #9aa0a6 #e0e0e0;
+}
+
+/* Стиль ползунка (для Chrome) */
+.solubility-scroll-top::-webkit-scrollbar {
+  height: 8px;
+}
+.solubility-scroll-top::-webkit-scrollbar-thumb {
+  background: #9aa0a6;
+  border-radius: 4px;
+}
+.solubility-scroll-top::-webkit-scrollbar-thumb:hover {
+  background: #5f6368;
+}
+
+/* Контейнер таблицы */
+.solubility-table-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 95%;
+  margin: 0 auto;
+  scrollbar-width: thin;
+  scrollbar-color: #9aa0a6 #f0f0f0;
+}
+
+.solubility-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+.solubility-table-container::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border-radius: 4px;
+}
+.solubility-table-container::-webkit-scrollbar-thumb:hover {
+  background: #80868b;
+}
+
+</style>
+<link rel="stylesheet" href="css/calc.css">
+</head>
+<body data-page="solubility">
+
+
+    <!-- Навигационное меню -->
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="periodic-table.html">Таблица Менделеева</a></li>
+    <li><a href="solubility-table.html">Таблица растворимости</a></li>
+    <li><a href="javascript:void(0)" onclick="openCalc(); return false;">Калькулятор</a></li>
+    <li class="nav-ai-button">
+  <button class="ai-mode-button" type="button">
+    <div class="button-content">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
+          <path d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z"></path>
+        </svg>
+      </span>
+      <span class="label">Поиск по элементам</span>
+    </div>
+  </button>
+</li>
+
+  </ul>
+</nav>
+
+
+
+</div>
+
+    
+    <!-- Лоадер -->
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    
+
+    <!-- Основная таблица растворимости -->
+    <div class="table-container">
+        <div class="table-container">
+                <!-- Название таблицы -->
+    <h1 class="table-title">Таблица растворимости веществ</h1>
+
+<!-- Верхний скроллбар -->
+<div class="solubility-scroll-top"></div>
+
+<!-- Контейнер таблицы -->
+<div class="solubility-table-container">
+  <table class="main-solubility-table">
+
+                    <thead>
+                        <tr>
+                            <th>Анион \ Катион</th>
+                            <th>H⁺</th>
+                            <th>Li⁺</th>
+                            <th>K⁺</th>
+                            <th>Na⁺</th>
+                            <th>NH₄⁺</th>
+                            <th>Ba²⁺</th>
+                            <th>Ca²⁺</th>
+                            <th>Mg²⁺</th>
+                            <th>Sr²⁺</th>
+                            <th>Al³⁺</th>
+                            <th>Cr³⁺</th>
+                            <th>Fe²⁺</th>
+                            <th>Fe³⁺</th>
+                            <th>Ni²⁺</th>
+                            <th>Co²⁺</th>
+                            <th>Mn²⁺</th>
+                            <th>Zn²⁺</th>
+                            <th>Ag⁺</th>
+                            <th>Hg₂²⁺</th>
+                            <th>Hg²⁺</th>
+                            <th>Pb²⁺</th>
+                            <th>Sn²⁺</th>
+                            <th>Cu²⁺</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tbody>
+                            <tr><th>OH⁻</th><td></td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="M">М</td><td class="N">Н</td><td class="M">М</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td></tr>
+                            <tr><th>F⁻</th><td>Р</td><td class="M">М</td><td>Р</td><td>Р</td><td>Р</td><td class="M">М</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="M">М</td><td>P</td><td class="N">Н</td><td class="N">Н</td><td>P</td><td>P</td><td>P</td><td>P</td><td>Р</td><td class="N">Н</td><td class="dash">-</td><td class="N">Н</td><td>P</td><td>P</td></tr>
+                            <tr><th>Cl⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="N">Н</td><td>Р</td><td class="M">М</td><td>Р</td><td>Р</td></tr>
+                            <tr><th>Br⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="N">Н</td><td class="M">М</td><td class="M">М</td><td>Р</td><td>Р</td></tr>
+                            <tr><th>I⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="M">М</td><td></td></tr>
+                            <tr><th>S²⁻</th><td>Р</td><td>P</td><td>Р</td><td>Р</td><td>Р</td><td class="dash">-</td><td class="dash">-</td><td class="dash">-</td><td class="N">Н</td><td class="dash">-</td><td class="dash">-</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td></tr>
+                            <tr><th>SO₃²⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="N">Н</td><td class="M">М</td><td class="N">Н</td><td></td><td class="dash">-</td><td class="N">Н</td><td></td><td class="N">Н</td><td class="N">Н</td><td></td><td class="N">M</td><td class="N">Н</td><td class="dash">-</td><td></td><td class="N">Н</td><td></td><td></td></tr>
+                            <tr><th>SO₄²⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="M">М</td><td>Р</td><td class="N">Н</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="M">М</td><td class="N">Н</td><td class="dash">-</td><td class="N">Н</td><td>P</td><td>Р</td></tr>                                                                                                                                                                                           
+                            <tr><th>NO₃⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="dash">-</td><td>Р</td><td>Р</td><td class="dash">-</td><td>Р</td></tr>
+                            <tr><th>NO₂⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td></td><td></td><td></td><td></td><td>P</td><td class="M">М</td><td></td><td></td><td class="M">М</td><td class="dash">-</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><th>PO₄³⁻</th><td>Р</td><td class="N">Н</td><td>Р</td><td>Р</td><td class="dash">-</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td></td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td></tr>
+                            <tr><th>CO₃²⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td></td><td></td><td class="N">Н</td><td></td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td></td><td class="N">Н</td></tr>
+                            <tr><th>CH₃COO⁻</th><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="dash">-</td><td>Р</td><td>Р</td><td class="dash">-</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td>Р</td><td class="M">М</td><td>Р</td><td>Р</td><td class="dash">-</td><td>Р</td></tr>
+                            <tr><th>SiO₃²⁻</th><td class="N">Н</td><td class="N">Н</td><td>P</td><td>P</td><td></td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td class="N">Н</td><td></td><td></td><td class="N">Н</td><td></td><td></td><td></td><td class="N">Н</td><td class="N">Н</td><td></td><td></td><td></td><td class="N">Н</td><td class></td><td></td></tr>
+                        </tbody>
+            
+                       
+                    </tbody>
+                </table>
+            </div>
+        </table>
+    </div>
+    <!-- Легенда для обозначений -->
+    <div class="legend">
+        <ul>
+            <li>
+                <div class="color-box" style="background: none; border: 2px solid #ddd"></div>
+                <span>Р — хорошо растворимо (&gt;10 г/1000 г)</span>
+            </li>
+            <li>
+                <div class="color-box" style="background: #6fb1a0"></div>
+                <span>М — малорастворимо (0.01-10 г)</span>
+            </li>
+            <li>
+                <div class="color-box" style="background: #ff6b6b"></div>
+                <span>Н — нерастворимо (&lt;0.01 г) </span>
+            </li>
+            <li>
+                <div class="color-box" style="background: #a4b0be"></div>
+                <span>- — разлагается/не существует</span>
+            </li>
+        </ul>
+    </div>
+    <!-- Дополнительные справочные данные -->
+    <div class="table-container">
+        <table class="additional-table">
+            <h2 style="text-align:center; margin-top: 40px;">Дополнительные справочные данные</h2>
+            <h3>Электрохимический ряд напряжений металлов</h3>
+            <tr>
+                <td>Li → K → Ba → Sr → Ca → Na → Mg → Al → Zn → Fe → Cd → Co → Ni → Sn → Pb → H → Cu → Hg → Ag → Au</td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px; color: #666;">(Убывание восстановительной способности металлов)</td>
+            </tr>
+        </table>
+    
+        <h3 style="margin-top: 30px;">Ряд электроотрицательности неметаллов</h3>
+        <table class="additional-table">
+            <tr>
+                <td>F > O > N > Cl > Br > I > S > C > H > P > Si</td>
+            </tr>
+            <tr>
+                <td style="font-size: 12px; color: #666;">(Убывание электроотрицательности по Полингу)</td>
+            </tr>
+        </table>
+    </div>
+
+
+
+    <script>
+    // Скрипт для скрытия лоадера
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500);
+    });
+
+    // Получаем элементы модального окна и кнопки закрытия
+    const modal = document.getElementById('ionModal');
+    const closeBtn = document.querySelector('.close');
+
+    // Данные для ионов (пример)
+    const ionData = {
+        // Катионы
+        "H⁺": {
+            name: "Ион водорода (Протон)",
+            charge: "+1",
+            description: "Основной катион кислотных растворов. Образуется при диссоциации кислот.",
+            reactions: "Реагирует с металлами, основаниями и солями слабых кислот."
+        },
+        "Li⁺": {
+            name: "Ион лития",
+            charge: "+1",
+            description: "Щелочной металл 1 группы. Образует растворимые соли, кроме фосфатов и фторидов.",
+            reactions: "Реагирует с водой, кислотами и неметаллами."
+        },
+        "K⁺": {
+            name: "Ион калия",
+            charge: "+1",
+            description: "Щелочной металл. Все соли растворимы, кроме перхлоратов и гексахлорплатинатов.",
+            reactions: "Сильный восстановитель, бурно реагирует с водой."
+        },
+        "Na⁺": {
+            name: "Ион натрия",
+            charge: "+1",
+            description: "Основной внеклеточный катион. Все соли растворимы, кроме антимониатов и уранилацетатов.",
+            reactions: "Реагирует с кислотами, серой и галогенами."
+        },
+        "NH₄⁺": {
+            name: "Ион аммония",
+            charge: "+1",
+            description: "Единственный катион из неметаллов. Образует растворимые соли, кроме фосфатов.",
+            reactions: "Разлагается при нагревании: NH₄⁺ → NH₃ + H⁺."
+        },
+        "Ba²⁺": {
+            name: "Ион бария",
+            charge: "+2",
+            description: "Щёлочноземельный металл. Соли с SO₄²⁻ нерастворимы (BaSO₄).",
+            reactions: "Реагирует с сульфат-ионами с образованием белого осадка."
+        },
+        "Ca²⁺": {
+            name: "Ион кальция",
+            charge: "+2",
+            description: "Щёлочноземельный металл. Соли с CO₃²⁻ и SO₄²⁻ нерастворимы.",
+            reactions: "Реагирует с водой с образованием гидроксида кальция."
+        },
+        "Mg²⁺": {
+            name: "Ион магния",
+            charge: "+2",
+            description: "Щёлочноземельный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с кислотами с выделением водорода."
+        },
+        "Sr²⁺": {
+            name: "Ион стронция",
+            charge: "+2",
+            description: "Щёлочноземельный металл. Соли с SO₄²⁻ и CO₃²⁻ нерастворимы.",
+            reactions: "Реагирует с водой с образованием гидроксида стронция."
+        },
+        "Al³⁺": {
+            name: "Ион алюминия",
+            charge: "+3",
+            description: "Амфотерный металл. Образует нерастворимые гидроксиды и соли с PO₄³⁻.",
+            reactions: "Реагирует с щелочами с образованием алюминатов."
+        },
+        "Cr³⁺": {
+            name: "Ион хрома(III)",
+            charge: "+3",
+            description: "Переходный металл. Образует нерастворимые гидроксиды и соли с PO₄³⁻.",
+            reactions: "Реагирует с щелочами с образованием хроматов."
+        },
+        "Fe²⁺": {
+            name: "Ион железа(II)",
+            charge: "+2",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Окисляется до Fe³⁺ в присутствии кислорода."
+        },
+        "Fe³⁺": {
+            name: "Ион железа(III)",
+            charge: "+3",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием гидроксида железа(III)."
+        },
+        "Ni²⁺": {
+            name: "Ион никеля(II)",
+            charge: "+2",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием гидроксида никеля(II)."
+        },
+        "Co²⁺": {
+            name: "Ион кобальта(II)",
+            charge: "+2",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием гидроксида кобальта(II)."
+        },
+        "Mn²⁺": {
+            name: "Ион марганца(II)",
+            charge: "+2",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием гидроксида марганца(II)."
+        },
+        "Zn²⁺": {
+            name: "Ион цинка",
+            charge: "+2",
+            description: "Амфотерный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием цинкатов."
+        },
+        "Ag⁺": {
+            name: "Ион серебра",
+            charge: "+1",
+            description: "Благородный металл. Соли с Cl⁻, Br⁻, I⁻ и CO₃²⁻ нерастворимы.",
+            reactions: "Реагирует с хлоридами с образованием белого осадка AgCl."
+        },
+        "Hg₂²⁺": {
+            name: "Ион ртути(I)",
+            charge: "+1",
+            description: "Редкий катион. Соли с Cl⁻, Br⁻, I⁻ и CO₃²⁻ нерастворимы.",
+            reactions: "Реагирует с хлоридами с образованием белого осадка Hg₂Cl₂."
+        },
+        "Hg²⁺": {
+            name: "Ион ртути(II)",
+            charge: "+2",
+            description: "Токсичный катион. Соли с Cl⁻, Br⁻, I⁻ и CO₃²⁻ нерастворимы.",
+            reactions: "Реагирует с сульфидами с образованием чёрного осадка HgS."
+        },
+        "Pb²⁺": {
+            name: "Ион свинца(II)",
+            charge: "+2",
+            description: "Токсичный катион. Соли с Cl⁻, Br⁻, I⁻ и SO₄²⁻ нерастворимы.",
+            reactions: "Реагирует с сульфидами с образованием чёрного осадка PbS."
+        },
+        "Sn²⁺": {
+            name: "Ион олова(II)",
+            charge: "+2",
+            description: "Амфотерный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием станнатов."
+        },
+        "Cu²⁺": {
+            name: "Ион меди(II)",
+            charge: "+2",
+            description: "Переходный металл. Соли с CO₃²⁻ и PO₄³⁻ нерастворимы.",
+            reactions: "Реагирует с щелочами с образованием гидроксида меди(II)."
+        },
+        
+        // Анионы
+        "OH⁻": {
+            name: "Гидроксид-ион",
+            charge: "-1",
+            description: "Основание, образует щёлочи с металлами. Нерастворимые гидроксиды образуют осадки.",
+            reactions: "Нейтрализуется кислотами: OH⁻ + H⁺ → H₂O"
+        },
+        "F⁻": {
+            name: "Фторид-ион",
+            charge: "-1",
+            description: "Соли с щелочными металлами растворимы. Фторид кальция - важный минерал (флюорит).",
+            reactions: "Образует комплекс [AlF₆]³⁻ с алюминием"
+        },
+        "Cl⁻": {
+            name: "Хлорид-ион", 
+            charge: "-1",
+            description: "Соли обычно растворимы. AgCl, PbCl₂, Hg₂Cl₂ - исключения. Важен в кислотно-щелочном балансе.",
+            reactions: "Окисляется MnO₂ в HCl: MnO₂ + 4H⁺ + 2Cl⁻ → Mn²⁺ + Cl₂↑ + 2H₂O"
+        },
+        "Br⁻": {
+            name: "Бромид-ион",
+            charge: "-1",
+            description: "Соли аналогичны хлоридам, но менее растворимы. AgBr светочувствителен (фотография).",
+            reactions: "Окисляется до Br₂ хлором: 2Br⁻ + Cl₂ → 2Cl⁻ + Br₂"
+        },
+        "I⁻": {
+            name: "Иодид-ион",
+            charge: "-1",
+            description: "Соли преимущественно растворимы, кроме AgI, PbI₂, HgI₂. Важен для щитовидной железы.",
+            reactions: "Окисляется до I₂: 2I⁻ + H₂O₂ + 2H⁺ → I₂ + 2H₂O"
+        },
+        "S²⁻": {
+            name: "Сульфид-ион",
+            charge: "-2",
+            description: "Соли с переходными металлами нерастворимы. Водный раствор имеет запах тухлых яиц.",
+            reactions: "Реагирует с кислотами: S²⁻ + 2H⁺ → H₂S↑"
+        },
+        "SO₃²⁻": {
+            name: "Сульфит-ион",
+            charge: "-2",
+            description: "Соли сернистой кислоты. Окисляется до сульфатов. Используется как консервант.",
+            reactions: "2SO₃²⁻ + O₂ → 2SO₄²⁻ (медленное окисление)"
+        },
+        "SO₄²⁻": {
+            name: "Сульфат-ион",
+            charge: "-2",
+            description: "Соли с Ca²⁺, Ba²⁺, Pb²⁺ нерастворимы. BaSO₄ - рентгеноконтрастное вещество.",
+            reactions: "Ba²⁺ + SO₄²⁻ → BaSO₄↓ (белый осадок)"
+        },
+        "NO₃⁻": {
+            name: "Нитрат-ион",
+            charge: "-1",
+            description: "Практически все нитраты растворимы. Сильный окислитель в кислой среде.",
+            reactions: "Cu + 4H⁺ + 2NO₃⁻ → Cu²⁺ + 2NO₂↑ + 2H₂O"
+        },
+        "NO₂⁻": {
+            name: "Нитрит-ион",
+            charge: "-1",
+            description: "Соли токсичны, используются в пищевой промышленности. Промежуточное звено в азотном цикле.",
+            reactions: "2NO₂⁻ + 2I⁻ + 4H⁺ → 2NO↑ + I₂ + 2H₂O"
+        },
+        "PO₄³⁻": {
+            name: "Фосфат-ион",
+            charge: "-3",
+            description: "Соли с щелочными металлами растворимы. Важен для биоэнергетики (АТФ, ДНК).",
+            reactions: "3Ag⁺ + PO₄³⁻ → Ag₃PO₄↓ (жёлтый осадок)"
+        },
+        "CO₃²⁻": {
+            name: "Карбонат-ион",
+            charge: "-2",
+            description: "Соли с щелочными металлами растворимы. Разлагается кислотами с выделением CO₂.",
+            reactions: "CO₃²⁻ + 2H⁺ → CO₂↑ + H₂O"
+        },
+        "CH₃COO⁻": {
+            name: "Ацетат-ион",
+            charge: "-1",
+            description: "Соли уксусной кислоты. Большинство ацетатов растворимы. Pb(CH₃COO)₂ - «свинцовый сахар».",
+            reactions: "CH₃COO⁻ + H⁺ ⇌ CH₃COOH"
+        },
+        "SiO₃²⁻": {
+            name: "Силикат-ион",
+            charge: "-2",
+            description: "Соли кремниевой кислоты. Нерастворимы кроме щелочных металлов. Основа стекла.",
+            reactions: "SiO₃²⁻ + 2H⁺ → H₂SiO₃↓ (гель кремниевой кислоты)"
+        },
+
+        // Пример полного набора данных
+        "NH₄⁺": {
+            name: "Ион аммония",
+            charge: "+1",
+            description: "Единственный катион из неметаллов. Образует растворимые соли кроме фосфатов.",
+            reactions: "Разлагается при нагревании: NH₄⁺ → NH₃ + H⁺"
+        },
+        "Ba²⁺": {
+            name: "Ион бария",
+            charge: "+2",
+            description: "Щёлочноземельный металл. Соли с SO₄²⁻ нерастворимы (BaSO₄).",
+            reactions: "Реагирует с сульфат-ионами с образованием белого осадка"
+        },
+        "SO₄²⁻": {
+            name: "Сульфат-ион",
+            charge: "-2",
+            description: "Соли с Ca²⁺, Ba²⁺, Pb²⁺ нерастворимы. Концентрированная H₂SO₄ - окислитель.",
+            reactions: "Образует осадки с ионами Ba²⁺, Pb²⁺; восстанавливается до SO₂"
+        },
+        "CO₃²⁻": {
+            name: "Карбонат-ион",
+            charge: "-2", 
+            description: "Соли растворимы только с щелочными металлами и аммонием. Разлагается кислотами.",
+            reactions: "Реагирует с кислотами с выделением CO₂: CO₃²⁻ + 2H⁺ → CO₂↑ + H₂O"
+        }
+    };
+
+    
+
+    // Функция показа информации об ионе
+    function showIonInfo(e) {
+        const ion = e.target.textContent.trim();
+        const data = ionData[ion] || {
+            name: ion,
+            charge: "Неизвестно",
+            description: "Информация отсутствует в базе данных",
+            reactions: ""
+        };
+
+        document.getElementById('ionTitle').textContent = data.name;
+        document.getElementById('ionCharge').textContent = data.charge;
+        document.getElementById('ionDescription').textContent = data.description;
+        document.getElementById('ionReactions').innerHTML = data.reactions ? 
+            `<p><strong>Химические реакции:</strong> ${data.reactions}</p>` : '';
+        
+        document.getElementById('ionModal').style.display = 'block';
+    }
+
+    // Закрытие модального окна
+    function closeModal() {
+        document.getElementById('ionModal').style.display = 'none';
+    }
+    // Добавляем обработчик для крестика
+    
+
+    // Закрытие при клике вне окна
+    window.onclick = function(event) {
+        const modal = document.getElementById('ionModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
+
+
+<!-- Химический калькулятор -->
+<div id="calcModal" class="calc-modal-overlay">
+  <div class="calc-modal glass-card">
+    <button class="calc-close" onclick="closeCalc()">×</button>
+    <h2 class="calc-title">Химический калькулятор</h2>
+
+    <div class="calc-modes">
+      <button class="calc-mode-btn" data-mode="molar">Молярная масса</button>
+      <button class="calc-mode-btn" data-mode="conversion">Масса / моль / молекулы</button>
+      <button class="calc-mode-btn" data-mode="concentration">Концентрация</button>
+      <button class="calc-mode-btn" data-mode="gas">PV = nRT</button>
+      <button class="calc-mode-btn" data-mode="composition">Процентный состав</button>
+      <button class="calc-mode-btn" data-mode="ph">pH</button>
+      <button class="calc-mode-btn" data-mode="osmotic">Осмотическое давление</button>
+      <button class="calc-mode-btn" data-mode="oxidation">Степени окисления</button>
+    </div>
+
+    <div id="calcContent" class="calc-content"></div>
+    <div id="calcResult" class="calc-results" style="display:none;"></div>
+
+    <button class="history-toggle" onclick="toggleHistory()">История вычислений ⮟</button>
+    <div id="calcHistory" class="calc-history" style="display:none;"></div>
+  </div>
+</div>
+
+    <script src="js/main.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var closeBtn = document.getElementById('solClose');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      if (typeof closeModal === 'function') {
+        closeModal();
+      } else {
+        var modal = document.getElementById('ionModal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+    });
+  }
+});
+</script>
+
+<div id="solubilityModal" class="sol-modal">
+    <div class="sol-modal-content">
+        <span class="sol-close">&times;</span>
+
+        <div class="sol-header">
+            <h1>
+                <span class="sol-ion-symbol"></span>
+                <small class="sol-ion-name"></small>
+            </h1>
+        </div>
+
+        <div class="sol-properties">
+            <div class="sol-property-card">Заряд: <b id="sol-charge"></b></div>
+            <div class="sol-property-card">Тип иона: <b id="sol-type"></b></div>
+        </div>
+
+        <div class="sol-tabs">
+            <div class="sol-tab active" data-tab="sol-basic">Основное</div>
+            <div class="sol-tab" data-tab="sol-solubility">Растворимость</div>
+            <div class="sol-tab" data-tab="sol-compounds">Типичные соединения</div>
+            <div class="sol-tab" data-tab="sol-reactions">Химические реакции</div>
+            <div class="sol-tab" data-tab="sol-obtain">Получение</div>
+            <div class="sol-tab" data-tab="sol-usage">Применение</div>
+            <div class="sol-tab" data-tab="sol-safety">Токсичность</div>
+            <div class="sol-tab" data-tab="sol-temp">Температура</div>
+            <div class="sol-tab" data-tab="sol-related">Похожие</div>
+            <div class="sol-tab" data-tab="sol-exceptions">Исключения</div>
+        </div>
+
+        <div class="sol-tab-content active" id="sol-basic"></div>
+        <div class="sol-tab-content" id="sol-solubility"></div>
+        <div class="sol-tab-content" id="sol-compounds"></div>
+        <div class="sol-tab-content" id="sol-reactions"></div>
+        <div class="sol-tab-content" id="sol-obtain"></div>
+        <div class="sol-tab-content" id="sol-usage"></div>
+        <div class="sol-tab-content" id="sol-safety"></div>
+        <div class="sol-tab-content" id="sol-temp"></div>
+        <div class="sol-tab-content" id="sol-related"></div>
+        <div class="sol-tab-content" id="sol-exceptions"></div>
+    </div>
+</div>
+<script type="module">
+    import { ions } from "./js/data/data_solubility-table/elements_sb.js";
+    import { initSolubilityModal } from "./js/solubility_modal.js";
+
+    // Инициализируем модалку
+    initSolubilityModal(ions);
+
+    // ВЕШАЕМ КЛИКИ НА ЗАГОЛОВКИ ТАБЛИЦЫ (АНИОНЫ + КАТИОНЫ)
+    document.querySelectorAll('.main-solubility-table thead th, .main-solubility-table tbody th')
+        .forEach(th => {
+            const ion = th.textContent.trim();
+            if (ion && ion !== "Анион \\ Катион") {
+                th.style.cursor = 'pointer';
+                th.addEventListener('click', () => openSolIon(ion));
+            }
+        });
+</script>
+
+
+
+<!-- === NEW SOLUBILITY MODAL === -->
+<div id="solubilityModal" class="sol-modal">
+  <div class="sol-modal-content">
+    <span class="sol-close">&times;</span>
+    <div class="sol-header">
+      <h1><span class="sol-ion-symbol"></span> <small class="sol-ion-name"></small></h1>
+    </div>
+    <div class="sol-properties">
+      <div class="sol-property-card">Заряд: <b id="sol-charge"></b></div>
+      <div class="sol-property-card">Тип иона: <b id="sol-type"></b></div>
+    </div>
+    <div class="sol-tabs">
+      <div class="sol-tab active" data-tab="sol-basic">Основное</div>
+      <div class="sol-tab" data-tab="sol-solubility">Растворимость</div>
+      <div class="sol-tab" data-tab="sol-compounds">Типичные соединения</div>
+      <div class="sol-tab" data-tab="sol-reactions">Реакции</div>
+      <div class="sol-tab" data-tab="sol-obtain">Получение</div>
+      <div class="sol-tab" data-tab="sol-usage">Применение</div>
+      <div class="sol-tab" data-tab="sol-safety">Токсичность</div>
+      <div class="sol-tab" data-tab="sol-temp">Температура</div>
+      <div class="sol-tab" data-tab="sol-related">Похожие ионы</div>
+      <div class="sol-tab" data-tab="sol-exceptions">Исключения</div>
+    </div>
+    <div class="sol-tab-content active" id="sol-basic"></div>
+    <div class="sol-tab-content" id="sol-solubility"></div>
+    <div class="sol-tab-content" id="sol-compounds"></div>
+    <div class="sol-tab-content" id="sol-reactions"></div>
+    <div class="sol-tab-content" id="sol-obtain"></div>
+    <div class="sol-tab-content" id="sol-usage"></div>
+    <div class="sol-tab-content" id="sol-safety"></div>
+    <div class="sol-tab-content" id="sol-temp"></div>
+    <div class="sol-tab-content" id="sol-related"></div>
+    <div class="sol-tab-content" id="sol-exceptions"></div>
+  </div>
+</div>
+
+<script type="module">
+import { ions } from "./data/data_solubility-table/elements_sb.js";
+import { initSolubilityModal } from "./js/solubility_modal.js";
+initSolubilityModal(ions);
+
+document.querySelectorAll('.main-solubility-table thead th, .main-solubility-table tbody th')
+ .forEach(th=>{
+   const ion=th.textContent.trim();
+   if(ion && ion!=="Анион \ Катион"){
+     th.style.cursor='pointer';
+     th.addEventListener('click',()=>openSolIon(ion));
+   }
+ });
+</script>
+
+
+
+
+<!-- 🔍 Модальное окно поиска -->
+<div id="searchModal" class="search-modal">
+  <div class="search-modal-content">
+    <span class="search-close">&times;</span>
+    <h2>🔍 Умный поиск по элементам и ионам</h2>
+
+    <!-- Поле ввода и кнопка поиска -->
+    <div class="search-input-row">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Введите название, символ, номер, массу или группу..."
+        autocomplete="off"
+      />
+      <button id="searchButton">Найти</button>
+    </div>
+
+    <!-- Список результатов -->
+    <ul id="searchResults"></ul>
+  </div>
+</div>
+
+<!-- Подключаем JS -->
+<script type="module">
+import { ions } from "./js/data/data_solubility-table/elements_sb.js";
+import { initSolubilityModal } from "./js/solubility_modal.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Инициализируем модалку с данными
+  initSolubilityModal(ions);
+
+  // Проверяем, был ли клик из поиска
+  const storedIon = localStorage.getItem("openIonSymbol");
+  if (storedIon) {
+    const ion = ions.find(
+      i =>
+        i.symbol?.toLowerCase() === storedIon.toLowerCase() ||
+        i.name?.toLowerCase() === storedIon.toLowerCase()
+    );
+    if (ion) {
+      // используем твою глобальную функцию
+      window.openSolIon(ion.symbol || ion.name);
+      console.log("✅ Автооткрыт ион:", ion.name || ion.symbol);
+    } else {
+      console.warn("⚠️ Ион не найден:", storedIon);
+    }
+    localStorage.removeItem("openIonSymbol");
+  }
+});
+</script>
+
+<script type="module" src="./js/search-modal.js"></script>
+
+</body>
+</html>

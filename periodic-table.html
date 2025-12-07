@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<link rel="stylesheet" href="css/calc.css">
+    <!-- Метаданные и стили -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Интерактивная таблица Менделеева</title>
+<!-- Favicon настройки -->
+    <!-- Основная иконка -->
+    <link rel="icon" type="RANEPA_logo.png" href="assets/RANEPA_logo.png">
+    <!-- Иконки для Apple-устройств -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/RANEPA_logo.png">
+    <!-- Иконки разных размеров -->
+    <link rel="icon" type="RANEPA_logo.png" sizes="32x32" href="assets/RANEPA_logo.png">
+    <link rel="icon" type="RANEPA_logo.png" sizes="16x16" href="assets/RANEPA_logo.png">
+     <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/modal.css">
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="css/ai-button.css">
+<link rel="stylesheet" href="css/search-modal.css">
+
+
+
+    <style>
+    /* Адаптивные стили */
+    @media (max-width: 768px) {
+        .main-header {
+            top: 10px;
+            right: 10px;
+        }
+        .logo-image {
+            width: 80px;
+        }
+        .college-logo {
+            padding: 6px;
+            border-radius: 10px;
+        }
+    }
+    nav {
+    background: #2c3e50;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 25px; 
+    margin: 15px 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 15px; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    
+
+}
+
+nav a:hover {
+    background: #4ecdc4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+    
+        
+        td[class$="-element"] {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        td[class$="-element"]:hover {
+            transform: scale(1.1);
+            z-index: 1;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        
+        
+
+        /* Стили для таблицы и ее элементов */
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        td,
+        th {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #000;
+            min-width: 40px;
+        }
+
+        .group-header {
+            background-color: #666;
+            color: white;
+        }
+
+        .period-number {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .red-element {
+            background-color: #ff9999;
+        }
+
+        .blue-element {
+            background-color: #99ccff;
+        }
+
+        .yellow-element {
+            background-color: #ffff99;
+        }
+
+        .green-element {
+            background-color: #99ff99;
+        }
+
+        caption {
+            font-size: 24px;
+            margin: 10px;
+        }
+
+        .transition-group {
+            background-color: #e6e6fa;
+        }
+        /* Базовые стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Стили для таблицы и ее элементов */
+        table {
+            border-collapse: separate;
+            border-spacing: 3px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        caption {
+            font-size: 2.5em;
+            padding: 25px;
+            color: #2c3e50;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(45deg, #6b48ff, #00b4d8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        td, th {
+            text-align: center;
+            padding: 12px;
+            border: none;
+            min-width: 50px;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        /* Стили для групп элементов */
+        .group-header {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .period-number {
+            background: #ecf0f1;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Цвета для категорий элементов */
+        .red-element { background: #ff6b6b; }
+        .blue-element { background: #4ecdc4; }
+        .yellow-element { background: #ffe66d; }
+        .green-element { background: #82ca9d; }
+        .transition-group { background: #a4b0be; }
+
+        /* Эффекты при наведении */
+        td[class$="-element"] {
+            cursor: pointer;
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        td[class$="-element"]:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* Радиоактивные элементы */
+        td[data-radioactive="true"]::after {
+            content: "☢";
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            font-size: 0.7em;
+            color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* Модальное окно */
+        
+
+        /* Стили для лантаноидов и актиноидов */
+        .group-header th {
+            background: #ff0000;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            table {
+                transform: scale(0.8);
+                margin: 20px 0;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
+        }
+        /* Стили для лоадера */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 247, 250, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            transition: opacity 0.5s;
+        }
+
+        .loader {
+            position: relative;
+            width: 146px;
+            height: 146px;
+        }
+
+        .loader::before,
+        .loader::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            animation-duration: 1.8s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+            filter: drop-shadow(0 0 11px rgba(100, 100, 255, 0.3));
+        }
+
+        .loader::before {
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 0 17px #4ecdc4;
+            animation-name: pulsA;
+        }
+
+        .loader::after {
+            width: calc(100% - 34px);
+            height: calc(100% - 34px);
+            box-shadow: 0 0 0 0 #6b48ff;
+            animation-name: pulsB;
+        }
+
+        @keyframes pulsA {
+            0% { box-shadow: inset 0 0 0 17px #4ecdc4; opacity: 1; }
+            50%, 100% { box-shadow: inset 0 0 0 0 #4ecdc4; opacity: 0; }
+        }
+
+        @keyframes pulsB {
+            0%, 50% { box-shadow: 0 0 0 0 #6b48ff; opacity: 0; }
+            100% { box-shadow: 0 0 0 17px #6b48ff; opacity: 1; }
+        }
+
+        /* Остальные стили из предыдущей версии */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        /* Новые глобальные стили */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #4ecdc4;
+            --accent-color: #6b48ff;
+            --text-color: #2c3e50;
+            --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-gradient);
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Анимация появления таблицы */
+        @keyframes tableEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 3px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+            animation: tableEntrance 0.8s ease-out;
+            border: 2px solid var(--primary-color);
+        }
+
+        /* Новый дизайн заголовка */
+        caption {
+            font-size: 2.8em;
+            padding: 25px;
+            margin: 30px 0;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        caption::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        /* Улучшенные стили ячеек */
+        td, th {
+            text-align: center;
+            padding: 15px;
+            border: none;
+            min-width: 55px;
+            font-size: 0.95em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        /* Новые цвета категорий */
+        .red-element { background: #ff6b6b; }
+        .blue-element { background: #4ecdc4; }
+        .yellow-element { background: #ffe66d; }
+        .green-element { background: #82ca9d; }
+        .transition-group { background: #a4b0be; }
+
+        /* Эффект параллакса для фона */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--background-gradient);
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            table {
+                transform: scale(0.85);
+                margin: 20px 0;
+            }
+            caption {
+                font-size: 2em;
+                padding: 15px;
+            }
+            td, th {
+                padding: 10px;
+                font-size: 0.8em;
+            }
+        }
+
+       
+
+        /* Улучшенная читаемость для маленьких экранов */
+        #elementElectron {
+            word-break: break-word;
+            font-size: 0.9em;
+        }
+
+        /* Анимация иконки радиоактивности */
+        td[data-radioactive="true"]::after {
+            animation: radioactiveGlow 1.5s infinite;
+        }
+
+        @keyframes radioactiveGlow {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 10px #e74c3c; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Новые hover-эффекты */
+        td[class$="-element"]:hover {
+            transform: translateY(-5px) rotate(2deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* Градиентные границы для групп */
+        .group-header th {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Анимация фона */
+        @keyframes backgroundFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ff6b6b30, #4ecdc430, #6b48ff30);
+            background-size: 400% 400%;
+            animation: backgroundFlow 15s ease infinite;
+            z-index: -1;
+        }
+        /* Добавляем контейнер для таблицы */
+    .table-scroll-wrapper {
+        overflow-x: auto;
+        margin: 30px auto;
+        max-width: 95%;
+        position: relative;
+    }
+
+    /* Делаем левый столбец "липким" */
+    .period-number {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        background: linear-gradient(45deg, #2c3e50, #4ecdc4);
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        backdrop-filter: blur(2px);
+        color: white !important;
+        transition: all 0.3s;
+    }
+
+    /* Для мобильной адаптации */
+    @media (max-width: 768px) {
+        .table-scroll-wrapper {
+            margin: 20px 0;
+        }
+        
+        .period-number {
+            font-size: 0.8em;
+            padding: 8px !important;
+        }
+        
+    }
+    nav {
+        border-radius: 20px;
+        margin: 10px 15px;
+    }
+    
+    nav ul li {
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        margin: 5px 0;
+    }
+    
+    nav a {
+        border-radius: 12px;
+    }
+
+    
+    </style>
+    
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0b1424; color: #dfeeff; }
+    #elementModal {
+      position: fixed; inset: 0; display: none; justify-content: center; align-items: center;
+      background: transparent; z-index: 9999; padding: 20px;
+    }
+    .modal {
+      width: 1100px; background: #101b2f; border-radius: 20px;
+      display: grid; grid-template-columns: 70% 30%; overflow: hidden; color: #dfeeff; position: relative;
+    }
+    .left-panel { padding: 30px; background: #0f1a2b; }
+    .right-panel { background: #14243d; border-left: none; padding: 20px; }
+    .close-btn {
+      position: absolute; top: 10px; right: 16px; font-size: 30px; cursor: pointer; color: #00eaff;
+      transition: 0.2s; z-index: 3;
+    }
+    .close-btn:hover { transform: rotate(90deg); color: #fff; }
+    .modal-header h1 { font-size: 38px; color: #fff; margin: 0; display: flex; align-items: baseline; gap: 10px; }
+    .modal-header small { color: #00eaff; font-size: 22px; }
+    .properties-top { margin-top: 25px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .property-card {
+      flex: 1; min-width: 130px; background: #182b45; color: #cfeaff;
+      border-radius: 10px; padding: 10px; text-align: center;
+    }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .tab { padding: 8px 14px; cursor: pointer; color: #9ccfff; border-bottom: 2px solid transparent; transition: 0.3s; }
+    .tab.active { border-color: #00eaff; color: #00eaff; }
+    .tab-content { display: none; margin-top: 20px; color: #cfeaff; line-height: 1.6; }
+    .tab-content.active { display: block; }
+    .info-line { padding: 6px 0; font-size: 16px; }
+    .info-line b { color: #00eaff; margin-right: 6px; }
+    .section-title { font-size: 20px; color: #00eaff; text-align: center; margin-bottom: 10px; }
+    .swiper { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; background: #182b45; }
+    .swiper-slide img { width: 100%; height: 250px; object-fit: cover; }
+    .lightbox { display: none; }
+
+    /* ===== НАВИГАЦИЯ КАК В ТАБЛИЦЕ РАСТВОРИМОСТИ + STICKY ===== */
+
+nav {
+    background: #2c3e50;
+    padding: 1rem;
+
+    /* ВОТ ЭТО ДЕЛАЕТ МЕНЮ ПРИЛИПАЮЩИМ */
+    position: sticky;
+    top: 0;
+
+    z-index: 2000;
+
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border-radius: 25px;
+    margin: 20px 25px;
+
+    /* УБИРАЕМ ПРИЧИНУ ПРОБЛЕМ СО STICKY */
+    overflow: visible; /* вместо hidden */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 18px;
+    padding: 0.8rem 1.2rem;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: #6fb1a0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(78,205,196,0.3);
+}
+
+/* Адаптивное меню */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    nav {
+        border-radius: 20px;
+        margin: 15px;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+        padding: 0.7rem 1rem;
+        border-radius: 15px;
+    }
+
+    nav ul li {
+        background: rgba(255,255,255,0.15);
+        padding: 0.5rem;
+        border-radius: 15px;
+        margin: 8px 0;
+    }
+}
+  </style>
+<style>
+/* Делаем всю надпись в химических ячейках чёрной */
+td[class$="-element"] {
+    color: #2a2a2a  !important;
+    font-weight: 700;
+}
+
+</style>
+</head>
+
+<body data-page="periodic">
+    <!-- Анимированный фон -->    
+    <canvas class="particles" id="particles"></canvas>
+    <!-- Лоадер с анимацией -->
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Навигационное меню -->
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="periodic-table.html">Таблица Менделеева</a></li>
+    <li><a href="solubility-table.html">Таблица растворимости</a></li>
+    <li><a href="javascript:void(0)" onclick="openCalc(); return false;">Калькулятор</a></li>
+    <li class="nav-ai-button">
+  <button class="ai-mode-button" type="button">
+    <div class="button-content">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
+          <path d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z"></path>
+        </svg>
+      </span>
+      <span class="label">Поиск по элементам</span>
+    </div>
+  </button>
+</li>
+
+  </ul>
+</nav>
+
+
+
+</div>
+
+
+    <!-- Основная таблица элементов -->
+    <div class="table-scroll-wrapper">
+    <table>
+        <caption>Периодическая таблица Менделеева</caption>
+
+        <!-- Заголовок групп -->
+        <tr class="group-header">
+            <th rowspan="2">Период ↓</th>
+            <th colspan="11">Группа →</th>
+        </tr>
+        <tr class="group-header">
+            <td>I</td>
+            <td>II</td>
+            <td>III</td>
+            <td>IV</td>
+            <td>V</td>
+            <td>VI</td>
+            <td>VII</td>
+            <td colspan="10">VIII</td>
+        </tr>
+
+        <!-- 1 период -->
+        <tr>
+            <th class="period-number">1</th>
+            <td class="red-element" data-name="Водород" data-number="1" data-mass="1.008" data-type="Неметалл"
+                data-discover="1766 г. (Генри Кавендиш)" data-electron="1s¹">H</td>
+            <td colspan="5"></td>
+            <td colspan="0">(H)</td>
+            <td colspan="3"></td>
+            <td colspan="8" class="red-element" data-name="Гелий" data-number="2" data-mass="4.0026"
+                data-type="Инертный газ" data-discover="1868 г. (Пьер Жансен)" data-electron="1s²">He</td>
+        </tr>
+
+        <!-- 2 период -->
+        <tr>
+            <th class="period-number">2</th>
+            <td class="red-element" data-name="Литий" data-number="3" data-mass="6.94" data-type="Щелочной металл"
+                data-discover="1817 г. (Йохан Арфведсон)" data-electron="[He] 2s¹">Li</td>
+
+            <td class="red-element" data-name="Бериллий" data-number="4" data-mass="9.0122"
+                data-type="Щёлочноземельный металл" data-discover="1798 г. (Луи Николя Воклен)"
+                data-electron="[He] 2s²">Be</td>
+
+            <td class="yellow-element" data-name="Бор" data-number="5" data-mass="10.81" data-type="Металлоид"
+                data-discover="1808 г. (Жозеф Гей-Люссак)" data-electron="[He] 2s² 2p¹">B</td>
+
+            <td class="yellow-element" data-name="Углерод" data-number="6" data-mass="12.011" data-type="Неметалл"
+                data-discover="Древность" data-electron="[He] 2s² 2p²">C</td>
+
+            <td class="yellow-element" data-name="Азот" data-number="7" data-mass="14.007" data-type="Неметалл"
+                data-discover="1772 г. (Даниэль Резерфорд)" data-electron="[He] 2s² 2p³">N</td>
+
+            <td class="yellow-element" data-name="Кислород" data-number="8" data-mass="15.999" data-type="Неметалл"
+                data-discover="1774 г. (Джозеф Пристли)" data-electron="[He] 2s² 2p⁴">O</td>
+
+            <td class="yellow-element" data-name="Фтор" data-number="9" data-mass="18.998" data-type="Галоген"
+                data-discover="1886 г. (Анри Муассан)" data-electron="[He] 2s² 2p⁵">F</td>
+
+            <td colspan="3"></td>
+
+            <td class="yellow-element" data-name="Неон" data-number="10" data-mass="20.180" data-type="Инертный газ"
+                data-discover="1898 г. (Уильям Рамзай)" data-electron="[He] 2s² 2p⁶">Ne</td>
+        </tr>
+
+        <!-- 3 период -->
+        <tr>
+            <th class="period-number">3</th>
+            <td class="red-element" data-name="Натрий" data-number="11" data-mass="22.990" data-type="Щелочной металл"
+                data-discover="1807 г. (Хэмфри Дэви)" data-electron="[Ne] 3s¹">Na</td>
+
+            <td class="red-element" data-name="Магний" data-number="12" data-mass="24.305"
+                data-type="Щёлочноземельный металл" data-discover="1755 г. (Джозеф Блэк)" data-electron="[Ne] 3s²">Mg
+            </td>
+
+            <td class="yellow-element" data-name="Алюминий" data-number="13" data-mass="26.982"
+                data-type="Постпереходный металл" data-discover="1825 г. (Ханс Эрстед)" data-electron="[Ne] 3s² 3p¹">Al
+            </td>
+
+            <td class="yellow-element" data-name="Кремний" data-number="14" data-mass="28.085" data-type="Металлоид"
+                data-discover="1824 г. (Йёнс Якоб Берцелиус)" data-electron="[Ne] 3s² 3p²">Si</td>
+
+            <td class="yellow-element" data-name="Фосфор" data-number="15" data-mass="30.974" data-type="Неметалл"
+                data-discover="1669 г. (Хенниг Бранд)" data-electron="[Ne] 3s² 3p³">P</td>
+
+            <td class="yellow-element" data-name="Сера" data-number="16" data-mass="32.06" data-type="Неметалл"
+                data-discover="Древность" data-electron="[Ne] 3s² 3p⁴">S</td>
+
+            <td class="yellow-element" data-name="Хлор" data-number="17" data-mass="35.45" data-type="Галоген"
+                data-discover="1774 г. (Карл Вильгельм Шееле)" data-electron="[Ne] 3s² 3p⁵">Cl</td>
+
+            <td colspan="3"></td>
+
+            <td class="yellow-element" data-name="Аргон" data-number="18" data-mass="39.948" data-type="Инертный газ"
+                data-discover="1894 г. (Уильям Рамзай)" data-electron="[Ne] 3s² 3p⁶">Ar</td>
+        </tr>
+
+        <!-- 4 период -->
+        <tr>
+            <th rowspan="2" class="period-number">4</th>
+            <td class="red-element" data-name="Калий" data-number="19" data-mass="39.098" data-type="Щелочной металл"
+                data-discover="1807 г. (Хэмфри Дэви)" data-electron="[Ar] 4s¹">K</td>
+
+            <td class="red-element" data-name="Кальций" data-number="20" data-mass="40.078"
+                data-type="Щёлочноземельный металл" data-discover="1808 г. (Хэмфри Дэви)" data-electron="[Ar] 4s²">Ca
+            </td>
+
+            <td class="blue-element" data-name="Скандий" data-number="21" data-mass="44.956"
+                data-type="Переходный металл" data-discover="1879 г. (Ларс Нильсон)" data-electron="[Ar] 3d¹ 4s²">Sc
+            </td>
+
+            <td class="blue-element" data-name="Титан" data-number="22" data-mass="47.867" data-type="Переходный металл"
+                data-discover="1791 г. (Уильям Грегор)" data-electron="[Ar] 3d² 4s²">Ti</td>
+
+            <td class="blue-element" data-name="Ванадий" data-number="23" data-mass="50.942"
+                data-type="Переходный металл" data-discover="1801 г. (Андрес Мануэль дель Рио)"
+                data-electron="[Ar] 3d³ 4s²">V</td>
+
+            <td class="blue-element" data-name="Хром" data-number="24" data-mass="51.996" data-type="Переходный металл"
+                data-discover="1797 г. (Луи Николя Воклен)" data-electron="[Ar] 3d⁵ 4s¹">Cr</td>
+
+            <td class="blue-element" data-name="Марганец" data-number="25" data-mass="54.938"
+                data-type="Переходный металл" data-discover="1774 г. (Йохан Ган)" data-electron="[Ar] 3d⁵ 4s²">Mn</td>
+
+            <td class="blue-element" data-name="Железо" data-number="26" data-mass="55.845"
+                data-type="Переходный металл" data-discover="Древность" data-electron="[Ar] 3d⁶ 4s²">Fe</td>
+
+            <td class="blue-element" data-name="Кобальт" data-number="27" data-mass="58.933"
+                data-type="Переходный металл" data-discover="1735 г. (Георг Брандт)" data-electron="[Ar] 3d⁷ 4s²">Co
+            </td>
+
+            <td class="blue-element" data-name="Никель" data-number="28" data-mass="58.693"
+                data-type="Переходный металл" data-discover="1751 г. (Аксель Кронштедт)" data-electron="[Ar] 3d⁸ 4s²">Ni
+            </td>
+
+        </tr>
+        <tr>
+            <td class="blue-element" data-name="Медь" data-number="29" data-mass="63.546" data-type="Переходный металл"
+                data-discover="Древность" data-electron="[Ar] 3d¹⁰ 4s¹">Cu</td>
+
+            <td class="blue-element" data-name="Цинк" data-number="30" data-mass="65.38" data-type="Переходный металл"
+                data-discover="1746 г. (Андреас Маргграф)" data-electron="[Ar] 3d¹⁰ 4s²">Zn</td>
+
+            <td class="yellow-element" data-name="Галлий" data-number="31" data-mass="69.723"
+                data-type="Постпереходный металл" data-discover="1875 г. (Поль Эмиль Лекок де Буабодран)"
+                data-electron="[Ar] 3d¹⁰ 4s² 4p¹">Ga</td>
+
+            <td class="yellow-element" data-name="Германий" data-number="32" data-mass="72.630" data-type="Металлоид"
+                data-discover="1886 г. (Клеменс Винклер)" data-electron="[Ar] 3d¹⁰ 4s² 4p²">Ge</td>
+
+            <td class="yellow-element" data-name="Мышьяк" data-number="33" data-mass="74.922" data-type="Металлоид"
+                data-discover="Древность" data-electron="[Ar] 3d¹⁰ 4s² 4p³">As</td>
+
+            <td class="yellow-element" data-name="Селен" data-number="34" data-mass="78.971" data-type="Неметалл"
+                data-discover="1817 г. (Йёнс Якоб Берцелиус)" data-electron="[Ar] 3d¹⁰ 4s² 4p⁴">Se</td>
+
+            <td class="yellow-element" data-name="Бром" data-number="35" data-mass="79.904" data-type="Галоген"
+                data-discover="1826 г. (Антуан Жером Балар)" data-electron="[Ar] 3d¹⁰ 4s² 4p⁵">Br</td>
+
+            <td colspan="3"></td>
+
+            <td class="yellow-element" data-name="Криптон" data-number="36" data-mass="83.798" data-type="Инертный газ"
+                data-discover="1898 г. (Уильям Рамзай)" data-electron="[Ar] 3d¹⁰ 4s² 4p⁶">Kr</td>
+        </tr>
+
+        <!-- 5 период -->
+        <tr>
+            <th class="period-number" rowspan="2">5</th>
+            <td class="red-element" data-name="Рубидий" data-number="37" data-mass="85.468" data-type="Щелочной металл"
+                data-discover="1861 г. (Роберт Бунзен, Густав Кирхгоф)" data-electron="[Kr] 5s¹">Rb</td>
+
+            <td class="red-element" data-name="Стронций" data-number="38" data-mass="87.62"
+                data-type="Щёлочноземельный металл" data-discover="1790 г. (Адейр Кроуфорд)" data-electron="[Kr] 5s²">Sr
+            </td>
+
+            <td class="blue-element" data-name="Иттрий" data-number="39" data-mass="88.906"
+                data-type="Переходный металл" data-discover="1794 г. (Юхан Гадолин)" data-electron="[Kr] 4d¹ 5s²">Y</td>
+
+            <td class="blue-element" data-name="Цирконий" data-number="40" data-mass="91.224"
+                data-type="Переходный металл" data-discover="1789 г. (Мартин Клапрот)" data-electron="[Kr] 4d² 5s²">Zr
+            </td>
+
+            <td class="blue-element" data-name="Ниобий" data-number="41" data-mass="92.906"
+                data-type="Переходный металл" data-discover="1801 г. (Чарльз Хэтчетт)" data-electron="[Kr] 4d⁴ 5s¹">Nb
+            </td>
+
+            <td class="blue-element" data-name="Молибден" data-number="42" data-mass="95.95"
+                data-type="Переходный металл" data-discover="1778 г. (Карл Шееле)" data-electron="[Kr] 4d⁵ 5s¹">Mo</td>
+
+            <td class="blue-element" data-name="Технеций" data-number="43" data-mass="98" data-type="Переходный металл"
+                data-discover="1937 г. (Карло Перрье, Эмилио Сегре)" data-electron="[Kr] 4d⁵ 5s²">Tc</td>
+
+            <td class="blue-element" data-name="Рутений" data-number="44" data-mass="101.07"
+                data-type="Переходный металл" data-discover="1844 г. (Карл Клаус)" data-electron="[Kr] 4d⁷ 5s¹">Ru</td>
+
+            <td class="blue-element" data-name="Родий" data-number="45" data-mass="102.91" data-type="Переходный металл"
+                data-discover="1803 г. (Уильям Волластон)" data-electron="[Kr] 4d⁸ 5s¹">Rh</td>
+
+            <td class="blue-element" data-name="Палладий" data-number="46" data-mass="106.42"
+                data-type="Переходный металл" data-discover="1803 г. (Уильям Волластон)" data-electron="[Kr] 4d¹⁰">Pd
+            </td>
+        </tr>
+        <tr>
+            <td class="blue-element" data-name="Серебро" data-number="47" data-mass="107.87"
+                data-type="Переходный металл" data-discover="Древность" data-electron="[Kr] 4d¹⁰ 5s¹">Ag</td>
+
+            <td class="blue-element" data-name="Кадмий" data-number="48" data-mass="112.41"
+                data-type="Переходный металл" data-discover="1817 г. (Фридрих Штромейер)" data-electron="[Kr] 4d¹⁰ 5s²">
+                Cd</td>
+
+            <td class="yellow-element" data-name="Индий" data-number="49" data-mass="114.82"
+                data-type="Постпереходный металл" data-discover="1863 г. (Фердинанд Райх)"
+                data-electron="[Kr] 4d¹⁰ 5s² 5p¹">In</td>
+
+            <td class="yellow-element" data-name="Олово" data-number="50" data-mass="118.71"
+                data-type="Постпереходный металл" data-discover="Древность" data-electron="[Kr] 4d¹⁰ 5s² 5p²">Sn</td>
+
+            <td class="yellow-element" data-name="Сурьма" data-number="51" data-mass="121.76" data-type="Металлоид"
+                data-discover="Древность" data-electron="[Kr] 4d¹⁰ 5s² 5p³">Sb</td>
+
+            <td class="yellow-element" data-name="Теллур" data-number="52" data-mass="127.60" data-type="Металлоид"
+                data-discover="1782 г. (Франц Мюллер)" data-electron="[Kr] 4d¹⁰ 5s² 5p⁴">Te</td>
+
+            <td class="yellow-element" data-name="Иод" data-number="53" data-mass="126.90" data-type="Галоген"
+                data-discover="1811 г. (Бернар Куртуа)" data-electron="[Kr] 4d¹⁰ 5s² 5p⁵">I</td>
+
+            <td colspan="3"></td>
+
+            <td class="yellow-element" data-name="Ксенон" data-number="54" data-mass="131.29" data-type="Инертный газ"
+                data-discover="1898 г. (Уильям Рамзай)" data-electron="[Kr] 4d¹⁰ 5s² 5p⁶">Xe</td>
+        </tr>
+
+        <!-- 6 период - первый ряд -->
+        <tr>
+            <th class="period-number" rowspan="2">6</th>
+            <td class="red-element" data-name="Цезий" data-number="55" data-mass="132.91" data-type="Щелочной металл"
+                data-discover="1860 г. (Роберт Бунзен, Густав Кирхгоф)" data-electron="[Xe] 6s¹">Cs</td>
+
+            <td class="red-element" data-name="Барий" data-number="56" data-mass="137.33"
+                data-type="Щёлочноземельный металл" data-discover="1808 г. (Хэмфри Дэви)" data-electron="[Xe] 6s²">Ba
+            </td>
+
+            <td class="blue-element" data-name="Лантан" data-number="57" data-mass="138.91" data-type="Лантаноид"
+                data-discover="1839 г. (Карл Мосандер)" data-electron="[Xe] 5d¹ 6s²">La</td>
+            <td class="blue-element" data-name="Гафний" data-number="72" data-mass="178.49"
+                data-type="Переходный металл" data-discover="1923 г. (Дирк Костер, Дьёрдь Хевеши)"
+                data-electron="[Xe] 4f¹⁴ 5d² 6s²">Hf</td>
+
+            <td class="blue-element" data-name="Тантал" data-number="73" data-mass="180.95"
+                data-type="Переходный металл" data-discover="1802 г. (Андерс Экеберг)"
+                data-electron="[Xe] 4f¹⁴ 5d³ 6s²">Ta</td>
+
+            <td class="blue-element" data-name="Вольфрам" data-number="74" data-mass="183.84"
+                data-type="Переходный металл" data-discover="1783 г. (Хуан Хосе Элуяр)"
+                data-electron="[Xe] 4f¹⁴ 5d⁴ 6s²">W</td>
+
+            <td class="blue-element" data-name="Рений" data-number="75" data-mass="186.21" data-type="Переходный металл"
+                data-discover="1925 г. (Вальтер Ноддак, Ида Ноддак)" data-electron="[Xe] 4f¹⁴ 5d⁵ 6s²">Re</td>
+
+            <td class="blue-element" data-name="Осмий" data-number="76" data-mass="190.23" data-type="Переходный металл"
+                data-discover="1803 г. (Смитсон Теннант)" data-electron="[Xe] 4f¹⁴ 5d⁶ 6s²">Os</td>
+
+            <td class="blue-element" data-name="Иридий" data-number="77" data-mass="192.22"
+                data-type="Переходный металл" data-discover="1803 г. (Смитсон Теннант)"
+                data-electron="[Xe] 4f¹⁴ 5d⁷ 6s²">Ir</td>
+
+            <td class="blue-element" data-name="Платина" data-number="78" data-mass="195.08"
+                data-type="Переходный металл" data-discover="Древность" data-electron="[Xe] 4f¹⁴ 5d⁹ 6s¹">Pt</td>
+        </tr>
+        <tr>
+            <td class="blue-element" data-name="Золото" data-number="79" data-mass="196.97"
+                data-type="Переходный металл" data-discover="Древность" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s¹">Au</td>
+
+            <td class="blue-element" data-name="Ртуть" data-number="80" data-mass="200.59" data-type="Переходный металл"
+                data-discover="Древность" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s²">Hg</td>
+
+            <td class="yellow-element" data-name="Таллий" data-number="81" data-mass="204.38"
+                data-type="Постпереходный металл" data-discover="1861 г. (Уильям Крукс)"
+                data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p¹">Tl</td>
+
+            <td class="yellow-element" data-name="Свинец" data-number="82" data-mass="207.2"
+                data-type="Постпереходный металл" data-discover="Древность" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²">Pb
+            </td>
+
+            <td class="yellow-element" data-name="Висмут" data-number="83" data-mass="208.98"
+                data-type="Постпереходный металл" data-discover="Древность" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p³">Bi
+            </td>
+
+            <td class="yellow-element" data-name="Полоний" data-number="84" data-mass="209" data-type="Металлоид"
+                data-discover="1898 г. (Мария Кюри)" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁴" data-radioactive="true">Po
+            </td>
+
+            <td class="yellow-element" data-name="Астат" data-number="85" data-mass="210" data-type="Галоген"
+                data-discover="1940 г. (Дейл Корсон)" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵" data-radioactive="true">At
+            </td>
+            <td colspan="3"></td>
+            <td class="yellow-element" data-name="Радон" data-number="86" data-mass="222" data-type="Инертный газ"
+                data-discover="1900 г. (Фридрих Дорн)" data-electron="[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶" data-radioactive="true">Rn
+            </td>
+        </tr>
+
+        <!-- 7 период -->
+        <tr>
+            <th class="period-number" rowspan="2">7</th>
+            <td class="red-element" data-name="Франций" data-number="87" data-mass="223" data-type="Щелочной металл"
+                data-discover="1939 г. (Маргерит Пере)" data-electron="[Rn] 7s¹">Fr</td>
+
+            <td class="red-element" data-name="Радий" data-number="88" data-mass="226"
+                data-type="Щёлочноземельный металл" data-discover="1898 г. (Пьер и Мария Кюри)"
+                data-electron="[Rn] 7s²">Ra</td>
+
+            <td class="blue-element" data-name="Актиний" data-number="89" data-mass="227" data-type="Актинид"
+                data-discover="1899 г. (Андре Дебьерн)" data-electron="[Rn] 6d¹ 7s²">Ac</td>
+
+            <td class="blue-element" data-name="Резерфордий" data-number="104" data-mass="267"
+                data-type="Переходный металл" data-discover="1969 г. (Альберт Гиорсо и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d² 7s²">Rf</td>
+
+            <td class="blue-element" data-name="Дубний" data-number="105" data-mass="268" data-type="Переходный металл"
+                data-discover="1970 г. (Юрий Оганесян и др.)" data-electron="[Rn] 5f¹⁴ 6d³ 7s²">Db</td>
+
+            <td class="blue-element" data-name="Сиборгий" data-number="106" data-mass="269"
+                data-type="Переходный металл" data-discover="1974 г. (Альберт Гиорсо и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d⁴ 7s²">Sg</td>
+
+            <td class="blue-element" data-name="Борий" data-number="107" data-mass="270" data-type="Переходный металл"
+                data-discover="1981 г. (Петер Армбрустер и Готфрид Мюнценберг)" data-electron="[Rn] 5f¹⁴ 6d⁵ 7s²">Bh
+            </td>
+
+            <td class="blue-element" data-name="Хассий" data-number="108" data-mass="277" data-type="Переходный металл"
+                data-discover="1984 г. (Петер Армбрустер и Готфрид Мюнценберг)" data-electron="[Rn] 5f¹⁴ 6d⁶ 7s²">Hs
+            </td>
+
+            <td class="blue-element" data-name="Мейтнерий" data-number="109" data-mass="278"
+                data-type="Переходный металл" data-discover="1982 г. (Петер Армбрустер и Готфрид Мюнценберг)"
+                data-electron="[Rn] 5f¹⁴ 6d⁷ 7s²">Mt</td>
+
+            <td class="blue-element" data-name="Дармштадтий" data-number="110" data-mass="281"
+                data-type="Переходный металл" data-discover="1994 г. (Сигурд Хофманн и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d⁸ 7s²">Ds</td>
+        </tr>
+        <tr>
+            <td class="blue-element" data-name="Рентгений" data-number="111" data-mass="282"
+                data-type="Переходный металл" data-discover="1994 г. (Сигурд Хофманн и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d⁹ 7s²">Rg</td>
+
+            <td class="blue-element" data-name="Коперниций" data-number="112" data-mass="285"
+                data-type="Переходный металл" data-discover="1996 г. (Сигурд Хофманн и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s²">Cn</td>
+
+            <td class="yellow-element" data-name="Нихоний" data-number="113" data-mass="286"
+                data-type="Постпереходный металл" data-discover="2003 г. (Косукэ Морита и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p¹">Nh</td>
+
+            <td class="yellow-element" data-name="Флеровий" data-number="114" data-mass="289"
+                data-type="Постпереходный металл" data-discover="1998 г. (Юрий Оганесян и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p²">Fl</td>
+
+            <td class="yellow-element" data-name="Московий" data-number="115" data-mass="290"
+                data-type="Постпереходный металл" data-discover="2003 г. (Юрий Оганесян и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p³">Mc</td>
+
+            <td class="yellow-element" data-name="Ливерморий" data-number="116" data-mass="293"
+                data-type="Постпереходный металл" data-discover="2000 г. (Юрий Оганесян и др.)"
+                data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁴">Lv</td>
+
+            <td class="yellow-element" data-name="Теннессин" data-number="117" data-mass="294" data-type="Галоген"
+                data-discover="2010 г. (Юрий Оганесян и др.)" data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵">Ts</td>
+
+            <td colspan="3"></td>
+            <td class="yellow-element" data-name="Оганесон" data-number="118" data-mass="294" data-type="Инертный газ"
+                data-discover="2002 г. (Юрий Оганесян и др.)" data-electron="[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶">Og</td>
+        </tr>
+
+        <!-- Высшие Оксиды -->
+        <!-- Высшие Оксиды -->
+<tr>
+    <th class="period-number" rowspan="1">Высшие оксиды</th>
+
+    <td class="white-element"
+        data-type="oxide" data-key="R2O">R₂O</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="RO">RO</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="R2O3">R₂O₃</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="RO2">RO₂</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="R2O5">R₂O₅</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="RO3">RO₃</td>
+
+    <td class="white-element"
+        data-type="oxide" data-key="R2O7">R₂O₇</td>
+
+    <td colspan="10" class="white-element"
+        data-type="oxide" data-key="RO4">RO₄</td>
+</tr>
+
+        <!-- Летучие Водродные Соединения ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉-->
+        <!-- Летучие Водородные Соединения -->
+<tr>
+    <th class="period-number" rowspan="1">Летучие Водородные <br> Соединения</th>
+
+    <td colspan="3"></td>
+
+    <td class="white-element"
+        data-type="hydride" data-key="RH4">RH₄</td>
+
+    <td class="white-element"
+        data-type="hydride" data-key="RH3">RH₃</td>
+
+    <td class="white-element"
+        data-type="hydride" data-key="H2R">H₂R</td>
+
+    <td class="white-element"
+        data-type="hydride" data-key="HR">HR</td>
+
+    <td colspan="4"></td>
+</tr>
+
+
+        
+
+        <!-- Лантаноиды -->
+        <tr class="group-header">
+            <th colspan="12">* Лантаноиды</th>
+        </tr>
+        <tr>
+            <td class="green-element" data-name="Церий" data-number="58" data-mass="140.12" data-type="Лантаноид"
+                data-discover="1803 г. (Йёнс Берцелиус)" data-electron="[Xe] 4f¹ 5d¹ 6s²">Ce</td>
+
+            <td class="green-element" data-name="Празеодим" data-number="59" data-mass="140.91" data-type="Лантаноид"
+                data-discover="1885 г. (Карл Ауэр фон Вельсбах)" data-electron="[Xe] 4f³ 6s²">Pr</td>
+
+            <td class="green-element" data-name="Неодим" data-number="60" data-mass="144.24" data-type="Лантаноид"
+                data-discover="1885 г. (Карл Ауэр фон Вельсбах)" data-electron="[Xe] 4f⁴ 6s²">Nd</td>
+
+            <td class="green-element" data-name="Прометий" data-number="61" data-mass="145" data-type="Лантаноид"
+                data-discover="1945 г. (Джекоб Маринский)" data-electron="[Xe] 4f⁵ 6s²" data-radioactive="true">Pm</td>
+
+            <td class="green-element" data-name="Самарий" data-number="62" data-mass="150.36" data-type="Лантаноид"
+                data-discover="1879 г. (Поль Эмиль Лекок де Буабодран)" data-electron="[Xe] 4f⁶ 6s²">Sm</td>
+
+            <td class="green-element" data-name="Европий" data-number="63" data-mass="151.96" data-type="Лантаноид"
+                data-discover="1901 г. (Эжен Демарсе)" data-electron="[Xe] 4f⁷ 6s²">Eu</td>
+
+            <td class="green-element" data-name="Гадолиний" data-number="64" data-mass="157.25" data-type="Лантаноид"
+                data-discover="1880 г. (Жан Шарль Галиссар де Мариньяк)" data-electron="[Xe] 4f⁷ 5d¹ 6s²">Gd</td>
+
+            <td class="green-element" data-name="Тербий" data-number="65" data-mass="158.93" data-type="Лантаноид"
+                data-discover="1843 г. (Карл Мосандер)" data-electron="[Xe] 4f⁹ 6s²">Tb</td>
+
+            <td class="green-element" data-name="Диспрозий" data-number="66" data-mass="162.50" data-type="Лантаноид"
+                data-discover="1886 г. (Поль Эмиль Лекок де Буабодран)" data-electron="[Xe] 4f¹⁰ 6s²">Dy</td>
+
+            <td class="green-element" data-name="Гольмий" data-number="67" data-mass="164.93" data-type="Лантаноид"
+                data-discover="1878 г. (Марк Делафоссен)" data-electron="[Xe] 4f¹¹ 6s²">Ho</td>
+
+            <td class="green-element" data-name="Эрбий" data-number="68" data-mass="167.26" data-type="Лантаноид"
+                data-discover="1843 г. (Карл Мосандер)" data-electron="[Xe] 4f¹² 6s²">Er</td>
+
+            <td class="green-element" data-name="Тулий" data-number="69" data-mass="168.93" data-type="Лантаноид"
+                data-discover="1879 г. (Пер Теодор Клеве)" data-electron="[Xe] 4f¹³ 6s²">Tm</td>
+        </tr>
+        <tr>
+            <td class="green-element" data-name="Иттербий" data-number="70" data-mass="173.05" data-type="Лантаноид"
+                data-discover="1878 г. (Жан Шарль Галиссар де Мариньяк)" data-electron="[Xe] 4f¹⁴ 6s²">Yb</td>
+
+            <td class="green-element" data-name="Лютеций" data-number="71" data-mass="174.97" data-type="Лантаноид"
+                data-discover="1907 г. (Жорж Урбен)" data-electron="[Xe] 4f¹⁴ 5d¹ 6s²">Lu</td>
+        </tr>
+        
+        <!-- Актиноиды -->
+        <tr class="group-header">
+            <th colspan="12">** Актиноиды</th>
+        </tr>
+        <tr> 
+            <td class="green-element" data-name="Торий" data-number="90" data-mass="232.038" data-type="Актинид"
+            data-discover="1829 г. (Йёнс Якоб Берцелиус)" data-electron="[Rn] 6d² 7s²">Th</td>
+
+        <td class="green-element" data-name="Протактиний" data-number="91" data-mass="231.036" data-type="Актинид"
+            data-discover="1913 г. (Казимир Фаянс и Отто Гэн)" data-electron="[Rn] 5f² 6d¹ 7s²">Pa</td>
+
+        <td class="green-element" data-name="Уран" data-number="92" data-mass="238.029" data-type="Актинид"
+            data-discover="1789 г. (Мартин Генрих Клапрот)" data-electron="[Rn] 5f³ 6d¹ 7s²">U</td>
+
+        <td class="green-element" data-name="Нептуний" data-number="93" data-mass="237" data-type="Актинид"
+            data-discover="1940 г. (Эдвин Макмиллан и Филип Абельсон)" data-electron="[Rn] 5f⁴ 6d¹ 7s²">Np</td>
+
+        <td class="green-element" data-name="Плутоний" data-number="94" data-mass="244" data-type="Актинид"
+            data-discover="1940 г. (Гленн Сиборг и др.)" data-electron="[Rn] 5f⁶ 7s²">Pu</td>
+
+        <td class="green-element" data-name="Америций" data-number="95" data-mass="243" data-type="Актинид"
+            data-discover="1944 г. (Гленн Сиборг и др.)" data-electron="[Rn] 5f⁷ 7s²">Am</td>
+
+        <td class="green-element" data-name="Кюрий" data-number="96" data-mass="247" data-type="Актинид"
+            data-discover="1944 г. (Гленн Сиборг и др.)" data-electron="[Rn] 5f⁷ 6d¹ 7s²">Cm</td>
+
+        <td class="green-element" data-name="Берклий" data-number="97" data-mass="247" data-type="Актинид"
+            data-discover="1949 г. (Гленн Сиборг и Стэнли Томпсон)" data-electron="[Rn] 5f⁹ 7s²">Bk</td>
+
+        <td class="green-element" data-name="Калифорний" data-number="98" data-mass="251" data-type="Актинид"
+            data-discover="1950 г. (Гленн Сиборг и др.)" data-electron="[Rn] 5f¹⁰ 7s²">Cf</td>
+
+        <td class="green-element" data-name="Эйнштейний" data-number="99" data-mass="252" data-type="Актинид"
+            data-discover="1952 г. (Альберт Гиорсо и др.)" data-electron="[Rn] 5f¹¹ 7s²">Es</td>
+
+        <td class="green-element" data-name="Фермий" data-number="100" data-mass="257" data-type="Актинид"
+            data-discover="1952 г. (Альберт Гиорсо и др.)" data-electron="[Rn] 5f¹² 7s²">Fm</td>
+
+        <td class="green-element" data-name="Менделевий" data-number="101" data-mass="258" data-type="Актинид"
+            data-discover="1955 г. (Альберт Гиорсо и др.)" data-electron="[Rn] 5f¹³ 7s²">Md</td>
+        </tr>
+        <tr>
+            <td class="green-element" data-name="Нобелий" data-number="102" data-mass="259" data-type="Актинид"
+                data-discover="1957 г. (Альберт Гиорсо и др.)" data-electron="[Rn] 5f¹⁴ 7s²">No</td>
+
+            <td class="green-element" data-name="Лоуренсий" data-number="103" data-mass="266" data-type="Актинид"
+                data-discover="1961 г. (Альберт Гиорсо и др.)" data-electron="[Rn] 5f¹⁴ 7s² 7p¹">Lr</td>
+        </tr>   
+    </table>
+    </div>
+
+    <!-- Скрипт -->
+    <script>
+        // Инициализация анимированного фона с частицами
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        class Particle {
+            constructor() {
+                // Инициализация позиции и скорости частиц
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+
+            update() {
+                // Обновление позиции частицы
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Проверка границ холста
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                // Отрисовка частицы на холсте
+                ctx.fillStyle = 'rgba(78, 205, 196, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Обработчики событий
+        window.addEventListener('resize', init);
+        init();
+        animate();
+        // Скрипт для скрытия лоадера
+        window.addEventListener('load', () => {
+            // Скрытие лоадера после загрузки страницы
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        
+        const elements = document.querySelectorAll('[data-name]');
+const modal = document.getElementById('elementModal');
+const closeBtn = document.querySelector('.close');
+
+// Обработка кликов по элементам таблицы
+elements.forEach(element => {
+    element.addEventListener('click', () => {
+        const data = element.dataset;
+        document.getElementById('modalTitle').textContent = data.name;
+        document.getElementById('elementSymbol').textContent = element.textContent;
+        document.getElementById('elementNumber').textContent = data.number;
+        document.getElementById('elementMass').textContent = data.mass;
+        document.getElementById('elementType').textContent = data.type;
+        // Добавьте эти две строки
+        document.getElementById('elementDiscover').textContent = data.discover;
+        document.getElementById('elementElectron').textContent = data.electron;
+
+        const modalContent = document.querySelector('.modal-content');
+        modalContent.className = `modal-content ${element.className.split(' ')[0]}`;
+
+        modal.style.display = 'block';
+    });
+});
+
+// Закрытие модального окна
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+// Закрытие модального окна при клике вне его
+window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+    // В создании сайта  участвовали   Ангелов Егор, Михаил, Александр   
+    </script>
+    
+
+<!-- Химический калькулятор -->
+<div id="calcModal" class="calc-modal-overlay">
+  <div class="calc-modal glass-card">
+    <button class="calc-close" onclick="closeCalc()">×</button>
+    <h2 class="calc-title">Химический калькулятор</h2>
+
+    <div class="calc-modes">
+      <button class="calc-mode-btn" data-mode="molar">Молярная масса</button>
+      <button class="calc-mode-btn" data-mode="conversion">Масса / моль / молекулы</button>
+      <button class="calc-mode-btn" data-mode="concentration">Концентрация</button>
+      <button class="calc-mode-btn" data-mode="gas">PV = nRT</button>
+      <button class="calc-mode-btn" data-mode="composition">Процентный состав</button>
+      <button class="calc-mode-btn" data-mode="ph">pH</button>
+      <button class="calc-mode-btn" data-mode="osmotic">Осмотическое давление</button>
+      <button class="calc-mode-btn" data-mode="oxidation">Степени окисления</button>
+    </div>
+
+    <div id="calcContent" class="calc-content"></div>
+    <div id="calcResult" class="calc-results" style="display:none;"></div>
+
+    <button class="history-toggle" onclick="toggleHistory()">История вычислений ⮟</button>
+    <div id="calcHistory" class="calc-history" style="display:none;"></div>
+  </div>
+</div>
+<div id="elementModal">
+  <div class="em-modal">
+
+    <span class="em-close-btn">&times;</span>
+
+    <div class="em-left-panel">
+      <div class="em-modal-header">
+        <h1><span class="em-title-symbol"></span> <small class="em-title-name"></small></h1>
+      </div>
+
+      <div class="em-properties-top">
+        <div class="em-property-card">⚛ Атомный номер: <b id="em-atomic-number"></b></div>
+        <div class="em-property-card">⚖ Атомная масса: <b id="em-atomic-mass"></b></div>
+        <div class="em-property-card">🧪 Электронная конфигурация: <b id="em-electron"></b></div>
+      </div>
+
+      <div class="em-tabs">
+        <div class="em-tab active" data-tab="em-basic">Основные</div>
+        <div class="em-tab" data-tab="em-phys">Физические</div>
+        <div class="em-tab" data-tab="em-chem">Химические</div>
+        <div class="em-tab" data-tab="em-isotopes">Изотопы</div>
+        <div class="em-tab" data-tab="em-dist">Распространённость</div>
+        <div class="em-tab" data-tab="em-obtain">Получение</div>
+        <div class="em-tab" data-tab="em-usage">Применение</div>
+        <div class="em-tab" data-tab="em-bio">Биология</div>
+      </div>
+
+      <div class="em-tab-content active" id="em-basic"></div>
+      <div class="em-tab-content" id="em-phys"></div>
+      <div class="em-tab-content" id="em-chem"></div>
+      <div class="em-tab-content" id="em-isotopes"></div>
+      <div class="em-tab-content" id="em-dist"></div>
+      <div class="em-tab-content" id="em-obtain"></div>
+      <div class="em-tab-content" id="em-usage"></div>
+      <div class="em-tab-content" id="em-bio"></div>
+    </div>
+
+    <div class="em-right-panel">
+      <div class="em-section-title">Изображения</div>
+      <div class="swiper em-swiper">
+        <div class="swiper-wrapper" id="em-swiper-images">
+          <!-- изображения подставляются динамически -->
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="em-lightbox" id="em-lightbox">
+      <img id="em-lightbox-img">
+  </div>
+</div>
+
+    
+    
+
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script src="js/main.js"></script>
+
+<script type="module">
+  import { elementsData } from './js/data/data_periodic-table/elements.js';
+  import { initModal } from './js/modal.js';
+  initModal(elementsData);
+</script>
+
+...
+<!-- Модальное окно поиска -->
+<div id="searchModal" class="search-modal">
+  <div class="search-modal-content">
+    <span class="search-close">&times;</span>
+    <h2>🔍 Умный поиск по элементам</h2>
+    <div class="search-input-row">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Введите название, символ или формулу..."
+        autocomplete="off"
+      />
+      <button id="searchButton">Найти</button>
+    </div>
+    <ul id="searchResults"></ul>
+  </div>
+</div>
+
+<script type="module" src="js/search-modal.js"></script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const symbol = localStorage.getItem("openElementSymbol");
+    if (symbol) {
+      localStorage.removeItem("openElementSymbol");
+
+      // Ищем по тексту ячейки (например, "He", "O", "Ce" и т.д.)
+      const allCells = document.querySelectorAll("td, .green-element");
+      let targetEl = null;
+      allCells.forEach(cell => {
+        if (cell.textContent.trim() === symbol.trim()) {
+          targetEl = cell;
+        }
+      });
+
+      if (targetEl) {
+        // Подсвечиваем и открываем модалку
+        targetEl.classList.add("highlighted-element");
+
+        // Если initModal уже загружен, просто кликаем по ячейке
+        setTimeout(() => {
+          targetEl.click();
+
+          // Убираем подсветку спустя 2 секунды
+          setTimeout(() => {
+            targetEl.classList.remove("highlighted-element");
+          }, 2000);
+        }, 400);
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>

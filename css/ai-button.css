@@ -1,0 +1,174 @@
+/* === Стиль кнопки "Поиск" для навигации === */
+
+/* Контейнер кнопки */
+.ai-mode-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  padding: 0.5em;
+}
+
+/* Основная кнопка */
+.ai-mode-button {
+  background: #f5f6f8;
+  border: 1px solid #d0d3d9;
+  border-radius: 3em;
+  cursor: pointer;
+
+  font-size: 0.9em;
+  font-weight: 500;
+  line-height: 1.2em;
+
+  height: 2.2em;
+  padding: 0 1em 0 0.8em;
+
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+
+  transition: all 0.25s ease;
+}
+
+/* Hover / активные состояния */
+.ai-mode-button:hover {
+  background: #e6e9ef;
+  border-color: #bfc3ca;
+  color: #111;
+}
+
+.ai-mode-button:active {
+  transform: scale(0.97);
+}
+
+/* Убираем старые визуальные слои */
+.blur-layer,
+.gradient-layer,
+.inner-bg,
+.rotating-gradient {
+  display: none !important;
+}
+
+/* Содержимое кнопки */
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  position: relative;
+  z-index: 2;
+}
+
+/* Иконка */
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Подпись */
+.label {
+  font-size: 0.95em;
+  line-height: 1.2em;
+}
+
+/* Контейнер в навигации */
+.nav-ai-button {
+  margin-left: 20px;
+  background: transparent;
+}
+
+/* === Навигация: центрирование и кнопка "Поиск" === */
+.main-nav {
+  background: #f9fafc;
+  border-bottom: 1px solid #d8dce2;
+  border-radius: 12px;
+  padding: 10px 30px;
+  text-align: center;
+}
+
+/* Центрируем список */
+.main-nav ul {
+  list-style: none;
+  display: inline-flex; /* важно: теперь меню центрируется автоматически */
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+  gap: 0;
+}
+
+/* Отдельные пункты */
+.main-nav li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ссылки меню */
+.main-nav a {
+  color: #2f3542;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.main-nav a:hover {
+  background: #e8ebf0;
+  color: #000;
+}
+
+/* Кнопка "Поиск" */
+.nav-ai-button {
+  display: flex;
+  align-items: center;
+  margin-left: -4px; /* чуть подвигаем ближе к "Калькулятору" */
+}
+
+.nav-ai-button .ai-mode-button {
+  background: #f5f6f8;
+  border: 1px solid #d0d3d9;
+  border-radius: 3em;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
+  line-height: 1.2em;
+  height: 2.2em;
+  padding: 0 1em 0 0.8em;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  transition: all 0.25s ease;
+}
+
+.nav-ai-button .ai-mode-button:hover {
+  background: #e6e9ef;
+  border-color: #bfc3ca;
+  color: #111;
+}
+
+/* === Универсальная фиксация размера иконки поиска === */
+.nav-ai-button .icon {
+  width: 16px !important;
+  height: 16px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-ai-button .icon svg {
+  width: 100% !important;
+  height: 100% !important;
+  fill: currentColor;
+}
+

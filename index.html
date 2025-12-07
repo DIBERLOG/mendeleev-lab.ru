@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="css/calc.css">
+    <!-- Базовые настройки -->
+    <meta charset="UTF-8">
+    <!-- Адаптивный вьюпорт с запретом масштабирования -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Сайт по Химии колледжа RANEPA</title>
+<!-- Favicon настройки -->
+    <!-- Основная иконка -->
+    <link rel="icon" type="RANEPA_logo.png" href="assets/RANEPA_logo.png">
+    <!-- Иконки для Apple-устройств -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/RANEPA_logo.png">
+    <!-- Иконки разных размеров -->
+    <link rel="icon" type="RANEPA_logo.png" sizes="32x32" href="assets/RANEPA_logo.png">
+    <link rel="icon" type="RANEPA_logo.png" sizes="16x16" href="assets/RANEPA_logo.png">
+    <link rel="stylesheet" href="css/ai-button.css">
+    <link rel="stylesheet" href="css/search-modal.css">
+
+
+
+
+    
+<!-- стили CSS -->
+<link rel="manifest" >
+    <style>
+        /* Глобальный сброс стилей */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Основные стили тела документа */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        /* Стили шапки сайта */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px; 
+            margin: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        /* Навигационное меню */
+        nav {
+            background-color: #444;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+        /* Основной контент */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Секции контента */
+        section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(78, 205, 196, 0.2);
+            cursor: pointer;
+        }
+        /* Подвал сайта */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        
+        nav {
+    background: #2c3e50;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 15px; 
+    margin: 10px 15px; 
+        }
+        /* Анимация логотипа */
+        footer {
+    background: #2c3e50; /* Новый цвет фона */
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-radius: 15px 15px 0 0; /* Закругление верхних углов */
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+/* Для адаптивности на мобильных устройствах */
+@media (max-width: 768px) {
+    nav {
+        border-radius: 10px;
+        margin: 10px;
+    }
+    
+    footer {
+        border-radius: 10px 10px 0 0;
+    }
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: #4ecdc4;
+    color: white;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+        /* Анимация логотипа */
+        .main-header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            background: #2c3e50;
+    border-radius: 40px; 
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+    transform: rotate(0deg);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+        }
+
+        .college-logo {
+    display: block;
+    background: white; 
+    border-radius: 40px; 
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+    transform: rotate(0deg);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.1); 
+}
+
+        .college-logo:hover {
+            transform: rotate(-5deg) scale(1.05);
+            box-shadow: 0 8px 25px #2c3e50;
+        }
+
+        .logo-image {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .college-logo:hover .logo-image {
+            transform: scale(1.05);
+        }
+
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            .main-header {
+                top: 10px;
+                right: 10px;
+            }
+            .logo-image {
+                width: 80px;
+            }
+            .college-logo {
+                padding: 10px;
+                border-radius: 20px;
+            }
+        }
+
+        /* Стили для меню */
+        nav {
+            background: #2c3e50;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #4ecdc4;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Интерактивная карточка с социальными сетями */
+        .card {
+          position: relative;
+          width: 200px;
+          height: 200px;
+          background: lightgrey;
+          border-radius: 30px;
+          overflow: hidden;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          transition: all 1s ease-in-out;
+        }
+
+        .background {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at 100% 107%, #ff89cc 0%, #9cb8ec 30%, #00ffee 60%, #62c2fe 100%);
+        }
+
+        .logo {
+          position: absolute;
+          right: 50%;
+          bottom: 50%;
+          transform: translate(50%, 50%);
+          transition: all 0.6s ease-in-out;
+        }
+
+        .logo img {
+          width: 80px; 
+          height: 80px; 
+          object-fit: contain; 
+        }
+
+        .icon {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+        }
+
+        .icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .box {
+          position: absolute;
+          padding: 10px;
+          text-align: right;
+          background: rgba(255, 255, 255, 0.389);
+          border-top: 2px solid rgb(255, 255, 255);
+          border-right: 1px solid white;
+          border-radius: 10% 13% 42% 0%/10% 12% 75% 0%;
+          box-shadow: rgba(100, 100, 111, 0.364) -7px 7px 29px 0px;
+          transform-origin: bottom left;
+          transition: all 1s ease-in-out;
+          width: 100;
+          height: 100;
+        }
+
+        .box::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          opacity: 0;
+          transition: all 0.5s ease-in-out;
+        }
+
+        .box:hover .icon img {
+          filter: drop-shadow(0 0 5px white);
+        }
+
+        .box1 {
+          width: 70%;
+          height: 70%;
+          bottom: -70%;
+          left: -70%;
+        }
+
+        .box1::before {
+          background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #ff53d4 60%, #62c2fe 90%);
+        }
+
+        .box1:hover::before {
+          opacity: 1;
+        }
+
+        .box2 {
+          width: 50%;
+          height: 50%;
+          bottom: -50%;
+          left: -50%;
+          transition-delay: 0.2s;
+        }
+
+        .box2::before {
+          background: radial-gradient(circle at 30% 107%, #91e9ff 0%, #00ACEE 90%);
+        }
+
+        .box2:hover::before {
+          opacity: 1;
+        }
+
+        .box3 {
+          width: 30%;
+          height: 30%;
+          bottom: -30%;
+          left: -30%;
+          transition-delay: 0.4s;
+        }
+
+        .box3::before {
+          background: radial-gradient(circle at 30% 107%, #969fff 0%, #b349ff 90%);
+        }
+
+        .box3:hover::before {
+          opacity: 1;
+        }
+
+        .box4 {
+          width: 10%;
+          height: 10%;
+          bottom: -10%;
+          left: -10%;
+          transition-delay: 0.6s;
+        }
+
+        .card:hover {
+          transform: scale(1.1);
+        }
+
+        .card:hover .box {
+          bottom: -1px;
+          left: -1px;
+        }
+
+        .card:hover .logo {
+          transform: translate(0, 0);
+          bottom: 40px;
+          right: 40px;
+        }
+        /* Лоадер */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+
+        .loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .loader div {
+            position: absolute;
+            border: 4px solid #4ecdc4;
+            border-radius: 50%;
+            animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #4ecdc4 transparent transparent transparent;
+        }
+
+        .loader div:nth-child(1) { animation-delay: -0.45s; }
+        .loader div:nth-child(2) { animation-delay: -0.3s; }
+        .loader div:nth-child(3) { animation-delay: -0.15s; }
+
+        @keyframes loader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+                margin: 0.5rem;
+                border-radius: 15px;
+            }
+            /* Адаптация меню */ 
+            nav {
+                position: static;
+                margin: 0;
+                border-radius: 0;
+            }
+            /* Адаптация основного контента */
+            main {
+                padding: 1rem;
+                margin-bottom: 60px; 
+            }
+            
+            section {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+            
+            .card {
+                transform: scale(0.9);
+                margin: 0 auto;
+            }
+            
+            footer {
+                position: relative;
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            nav a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .logo-image {
+                width: 60px;
+            }
+            
+            .main-header {
+                top: 10px;
+                right: 10px;
+                padding: 8px;
+            }
+        }
+#feedback {
+  text-align: left !important;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+#feedback h2,
+#feedback p {
+  text-align: left;
+  margin-left: 10px;
+}
+
+#feedback form {
+  margin: 20px 0;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="solubility">
+    <!-- Основная структура страницы -->
+    <header>
+        <h1>Добро пожаловать на сайт<br> по химии коледжа РАНХиГС</h1>
+    </header>
+<!-- Лоадер  -->
+<div class="loader-container" id="loader">
+    <div class="loader">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<!-- Логотип с hover-эффектами -->
+<header class="main-header">
+    <a href="javascript:void(0);" class="college-logo"> 
+        <img src="assets/RANEPA_logo.png" alt="RANEPA_logo" class="logo-image">
+    </a>
+</header>
+
+<!-- Навигационное меню -->
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="periodic-table.html">Таблица Менделеева</a></li>
+    <li><a href="solubility-table.html">Таблица растворимости</a></li>
+    <li><a href="javascript:void(0)" onclick="openCalc(); return false;">Калькулятор</a></li>
+    <li class="nav-ai-button">
+  <button class="ai-mode-button" type="button">
+    <div class="button-content">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M17.5 12c0-3.04 2.46-5.5 5.5-5.5-3.04 0-5.5-2.46-5.5-5.5 0 3.04-2.46 5.5-5.5 5.5 3.04 0 5.5 2.46 5.5 5.5z"></path>
+          <path d="M15.65 11.58c.18-.5.27-1.03.31-1.58h-2c-.1 1.03-.51 1.93-1.27 2.69-.88.87-1.94 1.31-3.19 1.31C7.03 14 5 12.07 5 9.5 5 7.03 6.93 5 9.5 5c.46 0 .89.08 1.3.2l1.56-1.56C11.5 3.22 10.55 3 9.5 3 5.85 3 3 5.85 3 9.5S5.85 16 9.5 16c.56 0 2.26-.06 3.8-1.3l6.3 6.3 1.4-1.4-6.3-6.3c.4-.5.72-1.08.95-1.72z"></path>
+        </svg>
+      </span>
+      <span class="label">Поиск по элементам</span>
+    </div>
+  </button>
+</li>
+
+  </ul>
+</nav>
+
+
+
+
+</div>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Секция "Главная" -->
+        <section id="home">
+            <h2>Главная</h2>
+            <p>Это главная страница нашего сайта. Здесь вы можете найти основную информацию.</p>
+        </section>
+        <!-- Секция "О нас" -->
+        <section id="about">
+            <h2>О нас</h2>
+            <p>Этот сайт был создан энтузиастами, чтобы помочь в процессе обучения.</p>
+        </section>
+        
+        <!-- Секция с социальными сетями -->
+        <section id="contact">
+            <h2>Наши соц.сети</h2>
+            <p><!-- Карточка с логотипом и анимацией -->
+                <div class="card">
+                    <!-- Элементы карточки с анимацией -->
+                  <div class="background"></div>
+                  <div class="logo">
+                    <a href="https://www.ranepa.ru/?utm_source=yandex.ru&utm_medium=organic&utm_campaign=yandex.ru&utm_referrer=yandex.ru" target="_blank" class="icon">
+                      <img src="assets/RANEPA_logo.png" alt="RANEPA" class="svg">
+                    </a>
+                  </div>
+                  <!-- Ссылка на Telegram -->
+                  <div class="box box1">
+                    <a href="https://t.me/mainranepa" target="_blank" class="icon">
+                      <img src="assets/tg.png" alt="Telegram" class="svg">
+                    </a>
+                  </div>
+                  <!-- Ссылка на ВКонтакте -->
+                  <div class="box box2">
+                    <a href="https://vk.com/theacademy" target="_blank" class="icon">
+                      <img src="assets/vk.icon.png" alt="VK" class="svg">
+                    </a>
+                  </div>
+                  <!-- Ссылка на официальный сайт РАНХиГС -->
+                  <div class="box box3">
+                    <a href="https://www.ranepa.ru/?utm_source=yandex.ru&utm_medium=organic&utm_campaign=yandex.ru&utm_referrer=yandex.ru" target="_blank" class="icon">
+                      <img src="assets/RANEPA_logo.png" alt="RANEPA" class="svg">
+                    </a>
+                  </div>
+                  <div class="box box4"></div>
+                </div></p>
+            
+        </section>
+        <section id="feedback" class="feedback-section">
+  <h2> Обратная связь</h2>
+  <p>Есть идеи, ошибки или предложения? Напишите нам — мы ответим!</p>
+
+  <form id="feedback-form" action="https://formspree.io/f/mwpgnvpj" method="POST">
+    <input type="text" name="name" placeholder="Ваше имя" required>
+    <input type="email" name="email" placeholder="Ваш e-mail" required>
+    <textarea name="message" placeholder="Ваше сообщение..." rows="4" required></textarea>
+    <button type="submit" id="send-btn">Отправить</button>
+  </form>
+
+  <div id="feedback-success" class="feedback-success">✅ Спасибо! Ваше сообщение отправлено.</div>
+  <div id="feedback-error" class="feedback-error">⚠️ Ошибка при отправке. Попробуйте позже.</div>
+</section>
+
+
+
+
+    </main>
+    <!-- Подвал сайта -->
+    <footer>
+        <p>© сайт RANEPA. Все права защищены.</p>
+    </footer>
+     <!-- Скрипты -->
+    <script>
+        // Обработчик загрузки страницы
+        window.addEventListener('load', () => {
+            // Скрытие лоадера с анимацией
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+    </script>
+
+<!-- Химический калькулятор -->
+<div id="calcModal" class="calc-modal-overlay">
+  <div class="calc-modal glass-card">
+    <button class="calc-close" onclick="closeCalc()">×</button>
+    <h2 class="calc-title">Химический калькулятор</h2>
+
+    <div class="calc-modes">
+      <button class="calc-mode-btn" data-mode="molar">Молярная масса</button>
+      <button class="calc-mode-btn" data-mode="conversion">Масса / моль / молекулы</button>
+      <button class="calc-mode-btn" data-mode="concentration">Концентрация</button>
+      <button class="calc-mode-btn" data-mode="gas">PV = nRT</button>
+      <button class="calc-mode-btn" data-mode="composition">Процентный состав</button>
+      <button class="calc-mode-btn" data-mode="ph">pH</button>
+      <button class="calc-mode-btn" data-mode="osmotic">Осмотическое давление</button>
+      <button class="calc-mode-btn" data-mode="oxidation">Степени окисления</button>
+    </div>
+
+    <div id="calcContent" class="calc-content"></div>
+    <div id="calcResult" class="calc-results" style="display:none;"></div>
+
+    <button class="history-toggle" onclick="toggleHistory()">История вычислений ⮟</button>
+    <div id="calcHistory" class="calc-history" style="display:none;"></div>
+  </div>
+</div>
+
+    <script src="js/main.js"></script>
+
+<!-- Модальное окно поиска -->
+<div id="searchModal" class="search-modal">
+  <div class="search-modal-content">
+    <span class="search-close">&times;</span>
+    <h2>🔍 Умный поиск по элементам</h2>
+    <div class="search-input-row">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Введите название, символ или формулу..."
+        autocomplete="off"
+      />
+      <button id="searchButton">Найти</button>
+    </div>
+    <ul id="searchResults"></ul>
+  </div>
+</div>
+
+<script type="module" src="js/search-modal.js"></script>
+
+<script>
+const form = document.getElementById("feedback-form");
+const sendBtn = document.getElementById("send-btn");
+const successMsg = document.getElementById("feedback-success");
+const errorMsg = document.getElementById("feedback-error");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // анимация загрузки
+  sendBtn.disabled = true;
+  sendBtn.textContent = "⌛ Отправка...";
+
+  const data = new FormData(form);
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: { "Accept": "application/json" },
+    });
+
+    if (response.ok) {
+      form.reset();
+      form.classList.add("sent");
+      successMsg.style.display = "block";
+      errorMsg.style.display = "none";
+      sendBtn.textContent = "✅ Отправлено";
+    } else {
+      throw new Error("Ошибка отправки");
+    }
+  } catch (error) {
+    errorMsg.style.display = "block";
+    successMsg.style.display = "none";
+    sendBtn.textContent = "❌ Ошибка";
+  }
+
+  setTimeout(() => {
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Отправить";
+    form.classList.remove("sent");
+  }, 5000);
+});
+</script>
+
+
+
+</body>
+</html>
