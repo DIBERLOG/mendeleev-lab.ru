@@ -11,10 +11,14 @@
 [![💾 Репозиторий](https://img.shields.io/badge/💾_GitHub-Исходники-black?style=for-the-badge&logo=github)](https://github.com/DIBERLOG/mendeleev-lab)
 [![🛡️ Лицензия](https://img.shields.io/badge/🛡️_Лицензия-MendeleevLab_License_v1.0-4a90e2?style=for-the-badge)](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md)
 
-<!-- 👇 Кнопка с копированием email -->
-<a href="#" onclick="navigator.clipboard.writeText('minectur@gmail.com'); alert('📋 Email скопирован: minectur@gmail.com'); return false;">
-  <img src="https://img.shields.io/badge/📧_Скопировать_почту-blue?style=for-the-badge&logo=gmail" alt="Связаться с автором">
-</a>
+---
+
+### 🧾 Получение разрешения
+Если вы хотите использовать или адаптировать любую часть проекта (для **исследований, преподавания, коллабораций**  
+или интеграции в другие работы), необходимо **предварительно получить письменное разрешение** автора.
+
+**Контакты:**  
+📧 [minectur@gmail.com](mailto:minectur@gmail.com)  
 
 ---
 
