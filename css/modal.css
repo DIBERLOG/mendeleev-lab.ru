@@ -178,28 +178,17 @@
   border-radius: 12px;
 }
 
-
-
-/* Кастомный скроллбар в модальном окне */
+/* Кастомный скроллбар */
 #elementModal .em-left-panel {
   scrollbar-width: thin;
   scrollbar-color: #00eaff #0b1324;
 }
-
-#elementModal .em-left-panel::-webkit-scrollbar {
-  width: 8px;
-}
-
-#elementModal .em-left-panel::-webkit-scrollbar-track {
-  background: #0b1324;
-  border-radius: 4px;
-}
-
+#elementModal .em-left-panel::-webkit-scrollbar { width: 8px; }
+#elementModal .em-left-panel::-webkit-scrollbar-track { background: #0b1324; border-radius: 4px; }
 #elementModal .em-left-panel::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #00eaff, #7b2ff7);
   border-radius: 4px;
 }
-
 #elementModal .em-left-panel::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #33f3ff, #9b5dff);
 }
@@ -209,12 +198,54 @@
 #elementModal .em-swiper .swiper-button-prev {
   color: #00eaff;
 }
-
 #elementModal .em-swiper .swiper-pagination-bullet {
   background: rgba(255, 255, 255, 0.4);
   opacity: 1;
 }
-
 #elementModal .em-swiper .swiper-pagination-bullet-active {
   background: #00eaff;
+}
+
+/* === ✅ Адаптив для мобильных устройств === */
+@media (max-width: 900px) {
+  #elementModal {
+    align-items: center;
+    padding: 20px;
+  }
+
+  #elementModal .em-modal {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  #elementModal .em-left-panel {
+    order: 1; /* Текст сверху */
+    padding: 20px;
+    max-height: none;
+  }
+
+  #elementModal .em-right-panel {
+    order: 2; /* Картинки снизу */
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #3a506b;
+    padding: 16px;
+    background: #16213e;
+  }
+
+  #elementModal .em-modal-header h1 {
+    font-size: 28px;
+  }
+
+  #elementModal .em-tabs button {
+    font-size: 0.9em;
+  }
+
+  #elementModal .swiper {
+    height: 220px;
+  }
 }
