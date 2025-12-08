@@ -9,7 +9,7 @@
 
 [![🌐 Перейти на сайт](https://img.shields.io/badge/🌐_Перейти-на_сайт-00eaff?style=for-the-badge)](https://mendeleev-lab.ru)
 [![💾 Репозиторий](https://img.shields.io/badge/💾_GitHub-Исходники-black?style=for-the-badge&logo=github)](https://github.com/DIBERLOG/mendeleev-lab.ru)
-[![📧 Связаться](https://img.shields.io/badge/📧_Связаться-с_автором-blue?style=for-the-badge)](mailto:minectur@gmail.com)
+[![📧 Связаться](https://img.shields.io/badge/📧_Связаться-с_автором-blue?style=for-the-badge)](minectur@gmail.com)
 
 ---
 
