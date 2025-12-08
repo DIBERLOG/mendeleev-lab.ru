@@ -10,7 +10,7 @@
 [![🌐 Перейти на сайт](https://img.shields.io/badge/🌐_Перейти-на_сайт-00eaff?style=for-the-badge)](https://mendeleev-lab.ru)
 [![💾 Репозиторий](https://img.shields.io/badge/💾_GitHub-Исходники-black?style=for-the-badge&logo=github)](https://github.com/DIBERLOG/mendeleev-lab)
 [![🛡️ Лицензия](https://img.shields.io/badge/🛡️_Лицензия-MendeleevLab_License_v1.0-4a90e2?style=for-the-badge)](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md)
-[![📧 Связаться](https://img.shields.io/badge/📧_Связаться_с_автором-blue?style=for-the-badge&logo=gmail)]([mailto:minectur@gmail.com](https://github.com/DIBERLOG/mendeleev-lab.ru?tab=License-1-ov-file#-получение-разрешения))
+[![📧 Связаться](https://img.shields.io/badge/📧_Связаться_с_автором-blue?style=for-the-badge&logo=gmail)](https://github.com/DIBERLOG/mendeleev-lab.ru?tab=License-1-ov-file#-получение-разрешения)
 
 
 
