@@ -92,3 +92,10 @@ graph TD
 Подробнее см. раздел [![🛡️ Лицензия](https://img.shields.io/badge/🛡️_Лицензия-MendeleevLab_License_v1.0-4a90e2?style=for-the-badge)](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md)
 
 </div>
+
+---
+<div align="center">
+
+✨ *Наука — это искусство видеть невидимое.* ✨  
+
+</div>
