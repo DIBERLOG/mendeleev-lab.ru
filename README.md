@@ -8,17 +8,23 @@
 ---
 
 [![🌐 Перейти на сайт](https://img.shields.io/badge/🌐_Перейти-на_сайт-00eaff?style=for-the-badge)](https://mendeleev-lab.ru)
-[![💾 Репозиторий](https://img.shields.io/badge/💾_GitHub-Исходники-black?style=for-the-badge&logo=github)](https://github.com/DIBERLOG/mendeleev-lab.ru)
-[![📧 Связаться](https://img.shields.io/badge/📧_Связаться-с_автором-blue?style=for-the-badge)](minectur@gmail.com)
+[![💾 Репозиторий](https://img.shields.io/badge/💾_GitHub-Исходники-black?style=for-the-badge&logo=github)](https://github.com/DIBERLOG/mendeleev-lab)
+[![🛡️ Лицензия](https://img.shields.io/badge/🛡️_Лицензия-MendeleevLab_License_v1.0-4a90e2?style=for-the-badge)](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md)
+
+<!-- 👇 Кнопка с копированием email -->
+<a href="#" onclick="navigator.clipboard.writeText('minectur@gmail.com'); alert('📋 Email скопирован: minectur@gmail.com'); return false;">
+  <img src="https://img.shields.io/badge/📧_Скопировать_почту-blue?style=for-the-badge&logo=gmail" alt="Связаться с автором">
+</a>
 
 ---
 
 🛡️ **Лицензия проекта:**  
-Этот проект распространяется по специальной лицензии **MendeleevLab Personal License (MLPL)**.  
-Копирование, распространение и использование материалов разрешено **только с разрешения автора**.  
-Подробнее см. раздел [📄 Лицензия](https://github.com/DIBERLOG/mendeleev-lab.ru/blob/main/LICENSE.md#лицензия-mendeleev-lab-license-v10-ru).
+Проект распространяется по лицензии **Mendeleev Lab License v1.0 (MLL-1.0)**.  
+Использование и копирование материалов разрешено **только с письменного разрешения автора**.  
+Подробнее — см. [лицензию](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md).
 
 </div>
+
 
 ---
 
@@ -81,6 +87,6 @@ graph TD
 🛡️  **Лицензия проекта:**  
 Этот проект распространяется по специальной лицензии **MendeleevLab Personal License (MLPL)**.  
 Копирование, распространение и использование материалов разрешено **только с разрешения автора**.  
-Подробнее см. раздел [📄 Лицензия](https://github.com/DIBERLOG/mendeleev-lab.ru/blob/main/LICENSE.md#лицензия-mendeleev-lab-license-v10-ru).
+Подробнее см. раздел [![🛡️ Лицензия](https://img.shields.io/badge/🛡️_Лицензия-MendeleevLab_License_v1.0-4a90e2?style=for-the-badge)](https://github.com/DIBERLOG/mendeleev-lab/blob/main/LICENSE.md)
 
 </div>
