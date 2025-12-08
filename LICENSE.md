@@ -53,17 +53,14 @@
 
 Нарушение лицензии может повлечь **блокировку доступа, подачу DMCA-жалобы**  
 и/или **юридические действия** в соответствии с применимым законодательством.
-
-
-
 ---
 ---
-**Mendeleev Lab License v1.0** (ENG) 
+**Mendeleev Lab License v1.0**  
 Создано для защиты авторских прав, научной честности и открытого образования.  
 © 2025 **Diberlog** — Все права защищены.
 
 
-# Mendeleev Lab License v1.0  
+# Mendeleev Lab License v1.0  (ENG)
 © 2025 Diberlog — [https://mendeleev-lab.ru](https://mendeleev-lab.ru)
 
 ---
