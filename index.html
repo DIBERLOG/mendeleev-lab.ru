@@ -628,9 +628,22 @@ nav a:hover {
   <p>Есть идеи, ошибки или предложения? Напишите нам — мы ответим!</p>
 
   <form id="feedback-form" action="https://formspree.io/f/mwpgnvpj" method="POST">
-    <input type="text" name="name" placeholder="Ваше имя" required>
-    <input type="email" name="email" placeholder="Ваш e-mail" required>
+    <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" required>
+    <input type="email" name="email" placeholder="Ваш e-mail" autocomplete="email" required>
     <textarea name="message" placeholder="Ваше сообщение..." rows="4" required></textarea>
+    <label class="legal-consent">
+      <input type="checkbox" name="legal_terms_acceptance" value="accepted" required>
+      <span>
+        Я принимаю
+        <a href="terms.html" target="_blank" rel="noopener">Пользовательское соглашение</a>,
+        даю
+        <a href="consent.html" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>,
+        ознакомлен(а) с
+        <a href="privacy.html" target="_blank" rel="noopener">Политикой конфиденциальности</a>
+        и
+        <a href="cookies.html" target="_blank" rel="noopener">Политикой cookies</a>.
+      </span>
+    </label>
     <button type="submit" id="send-btn">Отправить</button>
   </form>
 
@@ -645,6 +658,12 @@ nav a:hover {
     <!-- Подвал сайта -->
     <footer>
         <p>© сайт RANEPA. Все права защищены.</p>
+        <div class="footer-legal-links">
+          <a href="privacy.html">Политика конфиденциальности</a>
+          <a href="consent.html">Согласие на обработку персональных данных</a>
+          <a href="terms.html">Пользовательское соглашение</a>
+          <a href="cookies.html">Политика cookies</a>
+        </div>
     </footer>
      <!-- Скрипты -->
     <script>
@@ -706,7 +725,28 @@ nav a:hover {
 
 <script type="module" src="js/search-modal.js"></script>
 
+<div class="cookie-banner" data-cookie-banner hidden>
+  <p>
+    Мы используем необходимые cookies и похожие технологии для работы сайта, а также
+    можем применять технические данные для улучшения проекта. Подробнее -
+    <a href="cookies.html">Политика cookies</a>.
+  </p>
+  <button type="button" data-cookie-accept>Принять</button>
+</div>
+
 <script>
+const cookieBanner = document.querySelector("[data-cookie-banner]");
+const cookieAccept = document.querySelector("[data-cookie-accept]");
+const cookieConsentKey = "mendeleev_lab_cookie_consent";
+
+if (cookieBanner && cookieAccept && localStorage.getItem(cookieConsentKey) !== "accepted") {
+  cookieBanner.hidden = false;
+  cookieAccept.addEventListener("click", () => {
+    localStorage.setItem(cookieConsentKey, "accepted");
+    cookieBanner.hidden = true;
+  });
+}
+
 const form = document.getElementById("feedback-form");
 const sendBtn = document.getElementById("send-btn");
 const successMsg = document.getElementById("feedback-success");
