@@ -21,7 +21,7 @@ jobs:
 
       - name: Check local links
         env:
-          LINKCHECK_ALLOW: "periodic-table.html: css/table.css"
+          LINKCHECK_ALLOW: ""
         run: node .github/scripts/check-links.mjs .
 
       - name: Prepare site files

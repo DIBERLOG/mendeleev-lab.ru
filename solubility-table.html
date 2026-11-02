@@ -1378,20 +1378,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<script type="module">
-import { ions } from "./data/data_solubility-table/elements_sb.js";
-import { initSolubilityModal } from "./js/solubility_modal.js";
-initSolubilityModal(ions);
 
-document.querySelectorAll('.main-solubility-table thead th, .main-solubility-table tbody th')
- .forEach(th=>{
-   const ion=th.textContent.trim();
-   if(ion && ion!=="Анион \ Катион"){
-     th.style.cursor='pointer';
-     th.addEventListener('click',()=>openSolIon(ion));
-   }
- });
-</script>
 
 
 
