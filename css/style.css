@@ -773,3 +773,16 @@ td, th {
     bottom: 16px;
   }
 }
+
+/* Feedback: contacts, status line, hidden honeypot and screen-reader labels */
+.feedback-contacts { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin: 0 0 18px; padding: 0; }
+.feedback-contacts a { color: #2563eb; }
+.feedback-telegram { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; background: #e0ecff; font-weight: 600; text-decoration: none; }
+.feedback-status { min-height: 1.4em; margin: 12px 0 0; font-size: 14px; color: #334155; }
+.feedback-status[data-kind="ok"] { color: #155724; }
+.feedback-status[data-kind="error"] { color: #b42318; }
+.feedback-trap { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+#feedback-form .legal-consent input { width: 20px; height: 20px; min-width: 20px; }
+#feedback-form .legal-consent input:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.legal-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; }
