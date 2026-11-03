@@ -624,31 +624,43 @@ nav a:hover {
             
         </section>
         <section id="feedback" class="feedback-section">
-  <h2> Обратная связь</h2>
-  <p>Есть идеи, ошибки или предложения? Напишите нам — мы ответим!</p>
+  <h2>Обратная связь</h2>
+  <p>Есть идеи, ошибки или предложения? Напишите — ответ придёт на указанную почту.</p>
+  <ul class="feedback-contacts">
+    <li>Почта: <a href="mailto:workbook.ea@mail.ru">workbook.ea@mail.ru</a></li>
+    <li><a class="feedback-telegram" href="https://t.me/Diberlog_bot" target="_blank" rel="noopener noreferrer">Написать в Telegram</a></li>
+  </ul>
 
-  <form id="feedback-form" action="https://formspree.io/f/mwpgnvpj" method="POST">
-    <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" required>
-    <input type="email" name="email" placeholder="Ваш e-mail" autocomplete="email" required>
-    <textarea name="message" placeholder="Ваше сообщение..." rows="4" required></textarea>
+  <!-- Messages go to the author's server on diberlog.ru, which stores them and notifies by e-mail and Telegram. -->
+  <form id="feedback-form" action="https://diberlog.ru/api/messages" method="POST" novalidate>
+    <label class="visually-hidden" for="fb-name">Ваше имя</label>
+    <input id="fb-name" type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="100" required>
+    <label class="visually-hidden" for="fb-email">Ваш e-mail</label>
+    <input id="fb-email" type="email" name="email" placeholder="Ваш e-mail" autocomplete="email" maxlength="254" required>
+    <label class="visually-hidden" for="fb-message">Сообщение</label>
+    <textarea id="fb-message" name="message" placeholder="Ваше сообщение..." rows="4" minlength="10" maxlength="5000" required></textarea>
+    <label class="feedback-trap" aria-hidden="true">Сайт<input name="website" tabindex="-1" autocomplete="off"></label>
     <label class="legal-consent">
-      <input type="checkbox" name="legal_terms_acceptance" value="accepted" required>
+      <input type="checkbox" name="terms" required>
       <span>
         Я принимаю
         <a href="terms.html" target="_blank" rel="noopener">Пользовательское соглашение</a>,
-        даю
-        <a href="consent.html" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>,
         ознакомлен(а) с
         <a href="privacy.html" target="_blank" rel="noopener">Политикой конфиденциальности</a>
         и
-        <a href="cookies.html" target="_blank" rel="noopener">Политикой cookies</a>.
+        <a href="cookies.html" target="_blank" rel="noopener">Политикой cookies</a>
+      </span>
+    </label>
+    <label class="legal-consent">
+      <input type="checkbox" name="consent" required>
+      <span>
+        Даю
+        <a href="consent.html" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
       </span>
     </label>
     <button type="submit" id="send-btn">Отправить</button>
+    <p id="feedback-status" class="feedback-status" role="status" aria-live="polite"></p>
   </form>
-
-  <div id="feedback-success" class="feedback-success">✅ Спасибо! Ваше сообщение отправлено.</div>
-  <div id="feedback-error" class="feedback-error">⚠️ Ошибка при отправке. Попробуйте позже.</div>
 </section>
 
 
@@ -749,44 +761,40 @@ if (cookieBanner && cookieAccept && localStorage.getItem(cookieConsentKey) !== "
 
 const form = document.getElementById("feedback-form");
 const sendBtn = document.getElementById("send-btn");
-const successMsg = document.getElementById("feedback-success");
-const errorMsg = document.getElementById("feedback-error");
+const feedbackStatus = document.getElementById("feedback-status");
+const showStatus = (text, kind) => { feedbackStatus.textContent = text; feedbackStatus.dataset.kind = kind || ""; };
 
+// The form posts to the author's server; the typed text stays in the form until the server confirms it.
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  // анимация загрузки
+  if (!form.reportValidity()) return;
+  const field = (name) => form.elements.namedItem(name);
+  const body = {
+    name: field("name").value, email: field("email").value, message: field("message").value,
+    website: field("website").value, terms: field("terms").checked, consent: field("consent").checked,
+    page: location.pathname,
+  };
   sendBtn.disabled = true;
-  sendBtn.textContent = "⌛ Отправка...";
-
-  const data = new FormData(form);
+  showStatus("Отправляем…");
   try {
     const response = await fetch(form.action, {
       method: "POST",
-      body: data,
-      headers: { "Accept": "application/json" },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     });
-
+    const result = await response.json().catch(() => ({}));
     if (response.ok) {
       form.reset();
-      form.classList.add("sent");
-      successMsg.style.display = "block";
-      errorMsg.style.display = "none";
-      sendBtn.textContent = "✅ Отправлено";
+      showStatus("Сообщение принято" + (result.id ? ", номер " + String(result.id).slice(0, 8) : "") + ". Ответ придёт на " + body.email + ".", "ok");
+    } else if (response.status === 400 || response.status === 429) {
+      showStatus(result.error || "Проверьте поля формы.", "error");
     } else {
-      throw new Error("Ошибка отправки");
+      showStatus("Сервер не принял сообщение. Текст сохранён в форме — попробуйте ещё раз или напишите на workbook.ea@mail.ru.", "error");
     }
   } catch (error) {
-    errorMsg.style.display = "block";
-    successMsg.style.display = "none";
-    sendBtn.textContent = "❌ Ошибка";
+    showStatus("Нет связи с сервером. Текст сохранён в форме — попробуйте позже или напишите на workbook.ea@mail.ru.", "error");
   }
-
-  setTimeout(() => {
-    sendBtn.disabled = false;
-    sendBtn.textContent = "Отправить";
-    form.classList.remove("sent");
-  }, 5000);
+  sendBtn.disabled = false;
 });
 </script>
 
