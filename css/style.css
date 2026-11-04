@@ -786,3 +786,16 @@ td, th {
 #feedback-form .legal-consent input { width: 20px; height: 20px; min-width: 20px; }
 #feedback-form .legal-consent input:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 .legal-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; }
+
+/* Contacts above the form: two cards with an icon — e-mail and Telegram — with space between them */
+.contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; max-width: 520px; margin: 0 auto 22px; text-align: left; }
+.contact-card { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 16px; border-radius: 14px; border: 1px solid #dbe3f0; background: #fff; color: #1e293b; text-decoration: none; box-shadow: 0 4px 14px rgba(30, 41, 59, 0.06); transition: border-color .2s, box-shadow .2s, transform .2s; }
+.contact-card:hover, .contact-card:focus-visible { border-color: #93b4f5; box-shadow: 0 8px 22px rgba(37, 99, 235, 0.12); transform: translateY(-1px); }
+.contact-card:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.contact-card__icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: #e8f0ff; color: #2563eb; }
+.contact-card__icon svg { width: 20px; height: 20px; }
+.contact-card__text { display: grid; gap: 1px; min-width: 0; }
+.contact-card__text small { font-size: 12px; color: #64748b; }
+.contact-card__text b { font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+.contact-card--telegram { background: linear-gradient(135deg, #eef5ff, #ffffff); border-color: #c7d8fb; }
+.contact-card--telegram .contact-card__icon { background: #2563eb; color: #fff; }
